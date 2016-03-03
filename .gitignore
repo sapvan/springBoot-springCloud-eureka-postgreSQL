@@ -23,6 +23,7 @@ local.properties
 .settings
 .springBeans
 .gradle
+.mvn
 !gradle-wrapper.jar
 build
 bin
