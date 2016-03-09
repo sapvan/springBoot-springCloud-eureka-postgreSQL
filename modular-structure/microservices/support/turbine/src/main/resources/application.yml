@@ -1,9 +1,3 @@
-server:
-  port: 8989
-
-management:
-  port: 8990
-
 info:
   component: Turbine
 
@@ -15,9 +9,15 @@ endpoints:
   shutdown:
     enabled: true
 
+server:
+  port: 8989
+
+management:
+  port: 8990
+
 logging:
   level:
-    root: WARN
+    root: INFO
     com.netflix.discovery: 'OFF'
     # org.springframework.integration: DEBUG
 
@@ -36,42 +36,3 @@ eureka:
 #  aggregator:
 #    clusterConfig: CUSTOMERS
 #  appConfig: customers
-
----
-# For deployment in Docker containers
-spring:
-  profiles: docker
-
-app:
-  rabbitmq:
-    host: rabbitmq
-
-eureka:
-  instance:
-    hostname: turbine
-  client:
-    serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
-
----
-# For deployment in Cloud Foundry
-spring:
-  profiles: cloud
-
-server:
-  port: 0 # Avoid collisions in the unknown CF djungle...
-
-management:
-  port: 0 # Avoid collisions in the unknown CF djungle...
-
-turbine:
-  amqp:
-    port: 0 # Avoid collisions in the unknown CF djungle...
-
-eureka:
-  instance:
-    hostname: ${vcap.application.uris[0]:localhost}
-    nonSecurePort: 80
-  client:
-    serviceUrl:
-      defaultZone: http://ml-public-ds-1.cfapps.io/eureka/

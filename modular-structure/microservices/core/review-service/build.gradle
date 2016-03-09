@@ -4,11 +4,9 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 
@@ -17,7 +15,6 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'maven-publish'
-apply plugin: 'docker'
 
 jar {
     baseName = 'review-service'
@@ -40,11 +37,8 @@ publishing {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-group = 'callista'
-mainClassName = 'se.callista.microservises.core.review.ReviewServiceApplication'
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven {
         // Can't find spring-cloud-build in maven central...
@@ -61,20 +55,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-hystrix:1.0.0.RELEASE")
     compile("org.springframework.cloud:spring-cloud-starter-eureka:1.0.0.RELEASE")
-
-    compile("se.callista.microservises:util:0.0.1-SNAPSHOT")
-
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-}
-
-distDocker {
-    exposePort 8080
-    setEnvironment 'JAVA_OPTS', '-Dspring.profiles.active=docker'
-}
-
-docker {
-    maintainer = 'Magnus Larsson <magnus.larsson.ml@gmail.com>'
-    baseImage = 'java:8'
 }
 
 task wrapper(type: Wrapper) {

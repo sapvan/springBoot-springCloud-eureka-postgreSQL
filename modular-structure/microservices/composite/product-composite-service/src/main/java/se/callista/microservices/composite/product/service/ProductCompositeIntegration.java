@@ -7,12 +7,10 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import se.callista.microservices.util.ServiceUtils;
 import se.callista.microservises.core.product.model.Product;
 import se.callista.microservises.core.recommendation.model.Recommendation;
 import se.callista.microservises.core.review.model.Review;
@@ -30,13 +28,9 @@ public class ProductCompositeIntegration {
     private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeIntegration.class);
 
     @Autowired
-    private LoadBalancerClient loadBalancer;
+    Util util;
 
-    @Autowired
-    ServiceUtils util;
-
-    @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
 
     // -------- //
     // PRODUCTS //
@@ -45,10 +39,7 @@ public class ProductCompositeIntegration {
     @HystrixCommand(fallbackMethod = "defaultProduct")
     public ResponseEntity<Product> getProduct(int productId) {
 
-        LOG.debug("Will call getProduct with Hystrix protection");
-
-        URI uri = util.getServiceUrl("product");
-
+        URI uri = util.getServiceUrl("product", "http://localhost:8081/product");
         String url = uri.toString() + "/product/" + productId;
         LOG.debug("GetProduct from URL: {}", url);
 
@@ -82,7 +73,7 @@ public class ProductCompositeIntegration {
         try {
             LOG.info("GetRecommendations...");
 
-            URI uri = util.getServiceUrl("recommendation");
+            URI uri = util.getServiceUrl("recommendation", "http://localhost:8081/recommendation");
 
             String url = uri.toString() + "/recommendation?productId=" + productId;
             LOG.debug("GetRecommendations from URL: {}", url);
@@ -123,7 +114,7 @@ public class ProductCompositeIntegration {
     public ResponseEntity<List<Review>> getReviews(int productId) {
         LOG.info("GetReviews...");
 
-        URI uri = util.getServiceUrl("review");
+        URI uri = util.getServiceUrl("review", "http://localhost:8081/review");
 
         String url = uri.toString() + "/review?productId=" + productId;
         LOG.debug("GetReviews from URL: {}", url);

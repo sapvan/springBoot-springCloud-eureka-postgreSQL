@@ -1,6 +1,5 @@
 package demo;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +26,6 @@ public class ApplicationTests {
 
 	private RestTemplate template = new TestRestTemplate();
 
-	@Ignore
 	@Test
 	public void homePageProtected() {
 		ResponseEntity<String> response = template.getForEntity("http://localhost:"
@@ -37,7 +35,6 @@ public class ApplicationTests {
 		assertTrue("Wrong header: " + auth, auth.startsWith("Bearer realm=\""));
 	}
 
-	@Ignore
 	@Test
 	public void userEndpointProtected() {
 		ResponseEntity<String> response = template.getForEntity("http://localhost:"
@@ -47,7 +44,6 @@ public class ApplicationTests {
 		assertTrue("Wrong header: " + auth, auth.startsWith("Bearer realm=\""));
 	}
 
-	@Ignore
 	@Test
 	public void authorizationRedirects() {
 		ResponseEntity<String> response = template.getForEntity("http://localhost:"

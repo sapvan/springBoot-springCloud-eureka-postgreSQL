@@ -8,23 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.callista.microservices.composite.product.model.ProductAggregated;
-import se.callista.microservices.util.ServiceUtils;
 import se.callista.microservises.core.product.model.Product;
 import se.callista.microservises.core.recommendation.model.Recommendation;
 import se.callista.microservises.core.review.model.Review;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
 import java.util.Date;
 import java.util.List;
-
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * Created by magnus on 04/03/15.
  */
-@Produces(APPLICATION_JSON)
-@Consumes(APPLICATION_JSON)
 @RestController
 public class ProductCompositeService {
 
@@ -34,7 +27,7 @@ public class ProductCompositeService {
     ProductCompositeIntegration integration;
 
     @Autowired
-    ServiceUtils util;
+    Util util;
 
     @RequestMapping("/")
     public String getProduct() {
@@ -63,7 +56,7 @@ public class ProductCompositeService {
                 recommendations = recommendationResult.getBody();
             }
         } catch (Throwable t) {
-            LOG.error("getProduct error", t);
+            LOG.error("getProduct erro ", t);
             throw t;
         }
 

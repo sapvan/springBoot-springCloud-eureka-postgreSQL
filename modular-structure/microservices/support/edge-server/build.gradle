@@ -4,11 +4,9 @@ buildscript {
      }
      repositories {
           mavenCentral()
-          jcenter()
      }
      dependencies {
           classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-          classpath 'se.transmode.gradle:gradle-docker:1.2'
      }
 }
 
@@ -16,7 +14,6 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
-apply plugin: 'docker'
 
 jar {
      baseName = 'edge-server'
@@ -25,11 +22,8 @@ jar {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-group = 'callista'
-mainClassName = 'se.callista.microservises.support.edge.ZuulApplication'
 
 repositories {
-     mavenLocal()
      mavenCentral()
 }
 
@@ -42,19 +36,7 @@ dependencies {
      compile('org.springframework.cloud:spring-cloud-starter-zuul:1.0.0.RELEASE')
      compile('org.springframework.cloud:spring-cloud-starter-eureka:1.0.0.RELEASE')
 
-     compile("se.callista.microservises:util:0.0.1-SNAPSHOT")
-
      testCompile('org.springframework.boot:spring-boot-starter-test')
-}
-
-distDocker {
-     exposePort 8765
-     setEnvironment 'JAVA_OPTS', '-Dspring.profiles.active=docker'
-}
-
-docker {
-     maintainer = 'Magnus Larsson <magnus.larsson.ml@gmail.com>'
-     baseImage = 'java:8'
 }
 
 task wrapper(type: Wrapper) {
