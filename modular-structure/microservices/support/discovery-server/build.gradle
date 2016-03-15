@@ -31,6 +31,7 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
+//Changed for spring 1.3.3 and removed explicit assignment of versions to each dependency
 dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-web") {
@@ -38,7 +39,7 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-undertow")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile('org.springframework.cloud:spring-cloud-starter-eureka-server:1.0.0.RELEASE') {
+    compile('org.springframework.cloud:spring-cloud-starter-eureka-server') {
         exclude(module: 'servlet-api') // Drags in an old 2.5 spec...
     }
 

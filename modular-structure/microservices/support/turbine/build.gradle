@@ -1,6 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '1.2.2.RELEASE'
+         //Changed for spring 1.3.3
+        springBootVersion = '1.3.3.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -25,6 +26,9 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    //Changed for spring 1.3.3
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {
@@ -35,3 +39,20 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile('org.springframework.cloud:spring-cloud-starter-turbine-amqp:1.0.0.RELEASE')
 }
+
+
+//Changed for spring 1.3.3
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.M5"
+	}
+}
+
+//Changed for spring 1.3.3
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+	}
+}
+
