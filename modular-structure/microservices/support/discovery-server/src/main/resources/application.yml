@@ -49,4 +49,3 @@ eureka:
     serviceUrl:
       defaultZone: http://user:${eureka.password}@${PREFIX:}eureka.cfapps.io/eureka/
 
-  
