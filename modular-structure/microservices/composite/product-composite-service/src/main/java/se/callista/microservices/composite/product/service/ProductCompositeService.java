@@ -7,10 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import se.callista.microservices.composite.product.model.Product;
 import se.callista.microservices.composite.product.model.ProductAggregated;
-import se.callista.microservises.core.product.model.Product;
-import se.callista.microservises.core.recommendation.model.Recommendation;
-import se.callista.microservises.core.review.model.Review;
+import se.callista.microservices.composite.product.model.Recommendation;
+import se.callista.microservices.composite.product.model.Review;
 
 import java.util.Date;
 import java.util.List;

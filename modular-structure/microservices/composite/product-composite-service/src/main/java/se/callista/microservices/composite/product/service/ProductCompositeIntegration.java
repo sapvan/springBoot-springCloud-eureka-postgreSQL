@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import se.callista.microservises.core.product.model.Product;
-import se.callista.microservises.core.recommendation.model.Recommendation;
-import se.callista.microservises.core.review.model.Review;
+
+
+
+
+
+import se.callista.microservices.composite.product.model.Product;
+import se.callista.microservices.composite.product.model.Recommendation;
+import se.callista.microservices.composite.product.model.Review;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +37,9 @@ public class ProductCompositeIntegration {
     @Autowired
     Util util;
 
+    @Autowired
+    private SetProcTimeBean setProcTimeBean;
+
     private RestTemplate restTemplate = new RestTemplate();
 
     // -------- //
@@ -39,7 +49,7 @@ public class ProductCompositeIntegration {
     @HystrixCommand(fallbackMethod = "defaultProduct")
     public ResponseEntity<Product> getProduct(int productId) {
 
-        URI uri = util.getServiceUrl("product", "http://localhost:8081/product");
+        /*URI uri = util.getServiceUrl("product", "http://localhost:8081/product");
         String url = uri.toString() + "/product/" + productId;
         LOG.debug("GetProduct from URL: {}", url);
 
@@ -48,7 +58,9 @@ public class ProductCompositeIntegration {
         LOG.debug("GetProduct body: {}", resultStr.getBody());
 
         Product product = response2Product(resultStr);
-        LOG.debug("GetProduct.id: {}", product.getProductId());
+        LOG.debug("GetProduct.id: {}", product.getProductId());*/
+
+    	Product product = new Product(productId, "name", 123);
 
         return util.createOkResponse(product);
     }
@@ -73,7 +85,7 @@ public class ProductCompositeIntegration {
         try {
             LOG.info("GetRecommendations...");
 
-            URI uri = util.getServiceUrl("recommendation", "http://localhost:8081/recommendation");
+            /*URI uri = util.getServiceUrl("recommendation", "http://localhost:8081/recommendation");
 
             String url = uri.toString() + "/recommendation?productId=" + productId;
             LOG.debug("GetRecommendations from URL: {}", url);
@@ -83,7 +95,17 @@ public class ProductCompositeIntegration {
             LOG.debug("GetRecommendations body: {}", resultStr.getBody());
 
             List<Recommendation> recommendations = response2Recommendations(resultStr);
-            LOG.debug("GetRecommendations.cnt {}", recommendations.size());
+            LOG.debug("GetRecommendations.cnt {}", recommendations.size());*/
+
+            int pt = setProcTimeBean.calculateProcessingTime();
+            LOG.info("/recommendation called, processing time: {}", pt);
+
+            sleep(pt);
+
+            List<Recommendation> recommendations = new ArrayList<>();
+            recommendations.add(new Recommendation(productId, 1, "Author 1", 1, "Content 1"));
+            recommendations.add(new Recommendation(productId, 2, "Author 2", 2, "Content 2"));
+            recommendations.add(new Recommendation(productId, 3, "Author 3", 3, "Content 3"));
 
             return util.createOkResponse(recommendations);
         } catch (Throwable t) {
@@ -93,6 +115,13 @@ public class ProductCompositeIntegration {
         }
     }
 
+    private void sleep(int pt) {
+        try {
+            Thread.sleep(pt);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Fallback method for getRecommendations()
@@ -114,7 +143,7 @@ public class ProductCompositeIntegration {
     public ResponseEntity<List<Review>> getReviews(int productId) {
         LOG.info("GetReviews...");
 
-        URI uri = util.getServiceUrl("review", "http://localhost:8081/review");
+        /*URI uri = util.getServiceUrl("review", "http://localhost:8081/review");
 
         String url = uri.toString() + "/review?productId=" + productId;
         LOG.debug("GetReviews from URL: {}", url);
@@ -124,7 +153,20 @@ public class ProductCompositeIntegration {
         LOG.debug("GetReviews body: {}", resultStr.getBody());
 
         List<Review> reviews = response2Reviews(resultStr);
-        LOG.debug("GetReviews.cnt {}", reviews.size());
+        LOG.debug("GetReviews.cnt {}", reviews.size());*/
+
+        int pt = setProcTimeBean.calculateProcessingTime();
+        LOG.info("/reviews called, processing time: {}", pt);
+
+        sleep(pt);
+
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(new Review(productId, 1, "Author 1", "Subject 1", "Content 1"));
+        reviews.add(new Review(productId, 2, "Author 2", "Subject 2", "Content 2"));
+        reviews.add(new Review(productId, 3, "Author 3", "Subject 3", "Content 3"));
+
+        LOG.info("/reviews response size: {}", reviews.size());
+
 
         return util.createOkResponse(reviews);
     }

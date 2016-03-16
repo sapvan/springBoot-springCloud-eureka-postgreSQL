@@ -16,6 +16,10 @@ eureka:
 #  ribbon:
 #    ServerListRefreshInterval: 1000
 
+service:
+  defaultMinMs: 100
+  defaultMaxMs: 200
+
 logging:
   level:
     se.callista: INFO
