@@ -19,6 +19,7 @@ zuul:
     product: /productservice/**
     recommendation: /recommendationservice/**
     review: /reviewservice/**
+    positions: /positionservice/**
 
 logging:
   level:
