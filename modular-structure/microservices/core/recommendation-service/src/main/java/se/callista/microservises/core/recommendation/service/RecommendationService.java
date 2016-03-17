@@ -3,9 +3,16 @@ package se.callista.microservises.core.recommendation.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import se.callista.microservises.core.recommendation.model.Recommendation;
 import se.callista.microservises.core.recommendation.service.util.SetProcTimeBean;
 
@@ -22,6 +29,10 @@ public class RecommendationService {
 
     @Autowired
     private SetProcTimeBean setProcTimeBean;
+
+    @Autowired
+    private LoadBalancerClient loadBalancer;
+	private RestTemplate restTemplate = new RestTemplate();
 
     /*
     private int port;
@@ -40,6 +51,7 @@ public class RecommendationService {
      * @return
      */
     @RequestMapping("/recommendation")
+    @HystrixCommand(fallbackMethod = "defaultRecommendations")
     public List<Recommendation> getRecommendations(
             @RequestParam(value = "productId",  required = true) int productId) {
 
@@ -82,5 +94,16 @@ public class RecommendationService {
         LOG.info("/set-processing-time called: {} - {} ms", minMs, maxMs);
 
         setProcTimeBean.setDefaultProcessingTime(minMs, maxMs);
+    }
+
+
+    /**
+     * Fallback method for getRecommendations()
+     *
+     * @param productId
+     * @return
+     */
+    public ResponseEntity<List<Recommendation>> defaultRecommendations(int productId) {
+        return new ResponseEntity<List<Recommendation>>(HttpStatus.BAD_GATEWAY);
     }
 }
