@@ -60,6 +60,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.cloud:spring-cloud-starter-hystrix")
     compile("org.springframework.cloud:spring-cloud-starter-eureka")
+    compile("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+	compile("org.springframework.cloud:spring-cloud-netflix-hystrix-amqp:1.0.7.RELEASE")
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

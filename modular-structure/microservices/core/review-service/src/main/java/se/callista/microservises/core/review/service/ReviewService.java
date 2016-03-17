@@ -40,8 +40,7 @@ public class ReviewService {
      * @return
      */
     @RequestMapping("/review")
-    public List<Review> getReviews(
-            @RequestParam(value = "productId",  required = true) int productId) {
+    public List<Review> getReviews(@RequestParam(value = "productId",  required = true) int productId) {
 
         int pt = setProcTimeBean.calculateProcessingTime();
         LOG.info("/reviews called, processing time: {}", pt);
