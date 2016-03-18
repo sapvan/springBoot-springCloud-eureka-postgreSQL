@@ -16,31 +16,31 @@ public class PositionServiceImpl implements PositionService {
 	@Autowired
 	PositionDao positionDao;
 
-	public List<Position> getAllPositions() {
+	public List<Position> getAllPositions() throws Exception{
 		List<Position> positionList = positionDao.getAllPositions();
 		return positionList;
 	}
 
 	@Override
-	public Position getPositionById(int id) {
+	public Position getPositionById(int id) throws Exception {
 		Position position = positionDao.getPositionById(id);
 		return position;
 	}
 
 	@Override
-	public Position createPosition(Position position) {
+	public Position createPosition(Position position) throws Exception {
 		position = positionDao.createPosition(position);
 		return position;
 	}
 
 	@Override
-	public Position updatePosition(Position position) {
+	public Position updatePosition(Position position) throws Exception {
 		position = positionDao.updatePosition(position);
 		return position;
 	}
 
 	@Override
-	public void deletePosition(int id) {
+	public void deletePosition(int id) throws Exception {
 		Position position = new Position(id);
 		positionDao.deletePosition(position);
 	}

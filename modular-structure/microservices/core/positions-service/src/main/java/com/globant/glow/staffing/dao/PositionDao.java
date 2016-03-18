@@ -6,13 +6,13 @@ import com.globant.glow.staffing.model.Position;
 
 public interface PositionDao {
 
-	public List<Position> getAllPositions();
+	public List<Position> getAllPositions() throws Exception;
 
-	public Position getPositionById(int id);
+	public Position getPositionById(int id) throws Exception;
 
-	public Position createPosition(Position greeting);
+	public Position createPosition(Position greeting) throws Exception;
 
-	public Position updatePosition(Position greeting);
+	public Position updatePosition(Position greeting) throws Exception;
 
-	public void deletePosition(Position greeting);
+	public void deletePosition(Position greeting) throws Exception;
 }

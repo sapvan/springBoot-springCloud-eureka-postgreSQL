@@ -19,35 +19,35 @@ public class PositionDaoImpl implements PositionDao{
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private Session getSession() {
+	private Session getSession() throws Exception {
 	    return sessionFactory.getCurrentSession();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Position> getAllPositions() {
+	public List<Position> getAllPositions() throws Exception {
 		return getSession().createQuery("from Position").list();
 	}
 
 	@Override
-	public Position getPositionById(int id) {
-		 return (Position) getSession().load(Position.class, id);
+	public Position getPositionById(int id) throws Exception {
+		 return (Position) getSession().get(Position.class, id);
 	}
 
 	@Override
-	public Position createPosition(Position position) {
+	public Position createPosition(Position position) throws Exception {
 		getSession().save(position);
 		return position;
 	}
 
 	@Override
-	public Position updatePosition(Position position) {
+	public Position updatePosition(Position position) throws Exception {
 		getSession().update(position);
 		return position;
 	}
 
 	@Override
-	public void deletePosition(Position position) {
+	public void deletePosition(Position position) throws Exception {
 		getSession().delete(position);
 	}
 
