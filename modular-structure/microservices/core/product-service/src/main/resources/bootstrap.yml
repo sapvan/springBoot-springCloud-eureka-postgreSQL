@@ -1,6 +1,12 @@
 spring:
   application:
     name: product
+  profiles:
+    active: default
   cloud:
     config:
-      uri: ${vcap.services.${PREFIX:}configserver.credentials.uri:http://user:password@localhost:8888}
+      enabled: true
+      discovery:
+        enabled: true
+        serviceId: central-config-server
+      #uri: ${vcap.services.${PREFIX:}configserver.credentials.uri:http://user:password@localhost:8888}
