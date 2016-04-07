@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.globant.glow.core.domain.LocationOffice;
 import com.globant.glow.staffing.model.Position;
 
 
@@ -25,8 +26,8 @@ public class PositionDaoImpl implements PositionDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Position> getAllPositions() throws Exception {
-		return getSession().createQuery("from Position").list();
+	public List<LocationOffice> getAllPositions() throws Exception {
+		return getSession().createQuery("from LocationOffice").list();
 	}
 
 	@Override

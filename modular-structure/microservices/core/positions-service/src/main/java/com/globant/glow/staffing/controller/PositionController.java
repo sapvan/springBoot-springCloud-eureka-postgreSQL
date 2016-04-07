@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.globant.glow.core.domain.LocationOffice;
 import com.globant.glow.staffing.model.Position;
 import com.globant.glow.staffing.services.PositionService;
 
@@ -35,15 +36,15 @@ public class PositionController {
     private static final Logger LOG = LoggerFactory.getLogger(PositionController.class);
 
 	@RequestMapping(value="/positions", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Position>> getAllPositions() {
-		List<Position> positionsList = null;
+	public ResponseEntity<List<LocationOffice>> getAllPositions() {
+		List<LocationOffice> positionsList = null;
 		try {
 			positionsList = positionService.getAllPositions();
 		}
 		catch(Exception e) {
-			return new ResponseEntity<List<Position>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<LocationOffice>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<List<Position>>(positionsList, HttpStatus.OK);
+		return new ResponseEntity<List<LocationOffice>>(positionsList, HttpStatus.OK);
 	}
 
 

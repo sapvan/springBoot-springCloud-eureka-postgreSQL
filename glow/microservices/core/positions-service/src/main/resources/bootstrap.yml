@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: positions
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
+        serviceId: central-config-server
+      #uri: ${vcap.services.${PREFIX:}configserver.credentials.uri:http://user:password@localhost:8888}

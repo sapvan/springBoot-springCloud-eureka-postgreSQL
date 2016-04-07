@@ -1,0 +1,24 @@
+server:
+  port: 8765
+
+info:
+  component: Zuul Server
+
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+zuul:
+  ignoredServices: "*"
+  routes:
+    positions: /positionservice/**
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: INFO
