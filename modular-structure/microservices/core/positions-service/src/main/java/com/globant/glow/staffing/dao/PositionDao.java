@@ -2,12 +2,13 @@ package com.globant.glow.staffing.dao;
 
 import java.util.List;
 
+import com.globant.glow.core.domain.BloodInformation;
 import com.globant.glow.core.domain.LocationOffice;
 import com.globant.glow.staffing.model.Position;
 
 public interface PositionDao {
 
-	public List<LocationOffice> getAllPositions() throws Exception;
+	public List<BloodInformation> getAllPositions() throws Exception;
 
 	public Position getPositionById(int id) throws Exception;
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.globant.glow.core.domain.BloodInformation;
 import com.globant.glow.core.domain.LocationOffice;
 import com.globant.glow.staffing.dao.PositionDao;
 import com.globant.glow.staffing.model.Position;
@@ -17,8 +18,8 @@ public class PositionServiceImpl implements PositionService {
 	@Autowired
 	PositionDao positionDao;
 
-	public List<LocationOffice> getAllPositions() throws Exception{
-		List<LocationOffice> positionList = positionDao.getAllPositions();
+	public List<BloodInformation> getAllPositions() throws Exception{
+		List<BloodInformation> positionList = positionDao.getAllPositions();
 		return positionList;
 	}
 
