@@ -2,6 +2,8 @@ package com.globant.glow.staffing.controller;
 
 import java.util.List;
 
+import javax.ws.rs.QueryParam;
+
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,32 +34,44 @@ public class UsersController {
 	@Autowired
 	UsersService usersService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
 
-    private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
 
-	@RequestMapping(value="/positions", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<BloodInformation>> getAllPositions() {
-		List<BloodInformation> positionsList = null;
-		try {
-
-		}
-		catch(Exception e) {
-			return new ResponseEntity<List<BloodInformation>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<List<BloodInformation>>(positionsList, HttpStatus.OK);
-	}
-
+    /**
+	 * Get the user information along with its default role details
+	 * @param userName
+	 * @return userInfo json
+	 */
 	@RequestMapping(value="/users", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> getLoggedInUserDetails() {
+	public ResponseEntity<String> getLoggedInUserDetails(@QueryParam("userName") String userName) {
+		LOGGER.info("Inside getLoggedInUserDetails method of UserController");
 		String userDetails = "";
 		try {
+			Object[] userInformation = usersService.getUserInfoWithDefaultRole(userName);
+
+			long globerId = 0;
+			String globerName = "";
+			long roleId = 0;
+			String roleName = "";
+
+			if(userInformation!=null) {
+				globerId = (Long) userInformation[0];
+
+				globerName = (String) userInformation[2] +" "+(String) userInformation[3];
+
+				roleId = (long) userInformation[4];
+
+				roleName = (String) userInformation[5];
+			}
+
 			JSONObject userObj = new JSONObject();
 
 			//User Details JSONObject creation
 			JSONObject userDetailsObj = new JSONObject();
-			userDetailsObj.put("id", "");
-			userDetailsObj.put("name", "");
-			userDetailsObj.put("roleId", "");
+			userDetailsObj.put("id", globerId);
+			userDetailsObj.put("name", globerName);
+			userDetailsObj.put("roleId", roleId);
+			userDetailsObj.put("roleName", roleName);
 			userObj.put("userDetails", userDetailsObj);
 
 			//Navigations JSONObject creation
@@ -181,8 +196,10 @@ public class UsersController {
 			userDetails = userObj.toString();
 		}
 		catch(Exception e) {
+			LOGGER.error("Exception in getLoggedInUserDetails method of UserController: ",e);
 			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		LOGGER.info("Exit from getLoggedInUserDetails method of UserController");
 		return new ResponseEntity<String>(userDetails, HttpStatus.OK);
 	}
 }

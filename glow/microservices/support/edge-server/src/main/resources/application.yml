@@ -17,6 +17,7 @@ zuul:
   ignoredServices: "*"
   routes:
     positions: /positionservice/**
+    users: /userservice/**
 
 logging:
   level:
