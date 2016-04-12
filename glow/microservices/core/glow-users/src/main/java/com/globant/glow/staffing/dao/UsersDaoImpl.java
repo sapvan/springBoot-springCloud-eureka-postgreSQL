@@ -28,6 +28,11 @@ public class UsersDaoImpl implements UsersDao{
 	    return sessionFactory.getCurrentSession();
 	}
 
+	/**
+	 * Get the user information along with its default role details
+	 * @param userName
+	 * @return userInfo object
+	 */
 	@Override
 	public Object[] getUserInfoWithDefaultRole(String userName) throws Exception {
 		LOGGER.info("Inside getUserInfoWithDefaultRole method of UsersDaoImpl");
