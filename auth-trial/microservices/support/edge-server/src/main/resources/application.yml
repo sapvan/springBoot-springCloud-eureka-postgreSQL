@@ -9,11 +9,13 @@ security:
     client:
       clientId: 894441096089-85pfn5k1rqo59b6q2v9jb58pt10ps7te.apps.googleusercontent.com
       clientSecret: nWEyPuR9xK8knQacEUwat8CR
-      accessTokenUri: https://www.googleapis.com/oauth2/v3/token
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
       userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
       clientAuthenticationScheme: query
       scope: email profile
+      accessType: offline
     resource:
+      #loadBalanced: true
       userInfoUri: https://www.googleapis.com/plus/v1/people/me
       preferTokenInfo: false
 
@@ -68,6 +70,7 @@ logging:
   level:
     ROOT: WARN
     se.callista: DEBUG
+    org.springframework.security: DEBUG
 
     # Get info regarding connection to the cofig server and retries if required
     org.springframework.cloud.config.client.ConfigServicePropertySourceLocator: DEBUG

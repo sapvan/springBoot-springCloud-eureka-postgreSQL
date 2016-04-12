@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateCustomizer;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +32,9 @@ public class ZuulApplication extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http.
             authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/","/api/**", "/login/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/google_oauth2_login").permitAll()
+                .antMatchers("/oauth2/**").permitAll()
                 .anyRequest().authenticated();
                 
                 
@@ -43,5 +45,11 @@ public class ZuulApplication extends WebSecurityConfigurerAdapter {
     @ResponseBody
     String home() {
         return "Hello World";
+    }
+
+  @RequestMapping("/")
+    @ResponseBody
+    String test() {
+        return OAuth2Authentication
     }
 }
