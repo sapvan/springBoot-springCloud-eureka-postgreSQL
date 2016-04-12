@@ -18,7 +18,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'maven-publish'
 
 jar {
-    baseName = 'positions-service'
+    baseName = 'glow-globers'
     version = '0.0.1-SNAPSHOT'
 }
 
@@ -27,8 +27,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             // TODO: Where to place these properties?
-            groupId 'se.callista.microservises.core.product'
-            artifactId 'positions-service'
+            groupId 'com.globant.glow.staffing'
+            artifactId 'glow-globers'
             version '0.0.1-SNAPSHOT'
 
             from components.java
