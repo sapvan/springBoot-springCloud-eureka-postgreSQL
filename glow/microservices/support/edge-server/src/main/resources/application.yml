@@ -18,6 +18,7 @@ zuul:
   routes:
     positions: /positionservice/**
     users: /userservice/**
+    globers: /globerservice/**
 
 logging:
   level:
