@@ -469,6 +469,17 @@ paths:
       summary: List of all columns for Staffing by globers as type
       description: 
         This will get the columns list which we needs to use in Globers primary menu 
+      parameters:
+        - name: columnFor
+          in: query
+          description: Column type 
+          type: string
+          required: true
+        - name: isActive
+          in: query
+          description: Column is active or not 
+          type: boolean
+          required: true
       responses:
         200:
           description:  List all column objects for Staffing by globers as type
