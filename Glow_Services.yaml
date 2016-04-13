@@ -1,0 +1,682 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Glow API
+  description: |
+     This document has all the API services for Glow
+host: www.globant.com
+basePath: /v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /positions:
+    get:
+      summary: Positions List
+      description: 
+        This service will use the Filter Criteria(data) as below and get all positions from the database.
+      parameters:
+        - name: positionId
+          in: query
+          description: Position primary key
+          format: int64
+          type: integer
+        - name: positionName
+          in: query
+          description: Position name
+          type: string
+        - name: projectId
+          in: query
+          description: Project primary key
+          type: integer
+          format: int64
+        - name: positionRoleId
+          in: query
+          description: Position Role primary key
+          type: integer
+          format: int64
+        - name: clientInterviewRequired
+          in: query
+          description: Whether client interview required or not
+          type: boolean
+        - name: location
+          in: query
+          description: LocationOffice primary key
+          type: integer
+          format: int64
+        - name: state
+          in: query
+          description: State of position
+          type: string  
+        - name: handlerTeamId
+          in: query
+          description: HandlerTeam primary key
+          type: integer  
+          format: int64
+        - name: handlerId
+          in: query
+          description: Glober primary key
+          type: integer
+          format: int64
+        - name: ticketNumber
+          in: query
+          description: Issue track number
+          type: integer  
+        - name: businessUnitId
+          in: query
+          description: BusinessUnit primary key
+          type: integer
+          format: int64
+        - name: clientId
+          in: query
+          description: Client primary key
+          type: integer
+      responses:
+        200:
+          description:  List all position objects
+          schema:
+            title: Positions
+            type: array
+            items:
+              $ref: '#/definitions/Position'
+        500:
+          description: Internal server error
+    post:
+      summary: Create new position
+      description: 
+        This service will create new position by getting the details from the data.
+        Can work on this service later, as initially main requirement is to manage assignments and staffing plan
+
+      parameters:
+        - name: position
+          in: body
+          description: The position JSON you want to post
+          schema:
+            $ref: '#/definitions/Position'
+          required: true
+      responses:
+        201:
+          description: Create a new position
+        500:
+          description: Internal server error
+  
+  /positions/count:
+    get:
+      summary: Positions Count
+      description: 
+        This service will use the Filter Criteria(data) as below and get all positions from the database.
+      parameters:
+        - name: positionId
+          in: query
+          description: Position primary key
+          format: int64
+          type: integer
+        - name: positionName
+          in: query
+          description: Position name
+          type: string
+        - name: projectId
+          in: query
+          description: Project primary key
+          type: integer
+          format: int64
+        - name: positionRoleId
+          in: query
+          description: Position Role primary key
+          type: integer
+          format: int64
+        - name: clientInterviewRequired
+          in: query
+          description: Whether client interview required or not
+          type: boolean
+        - name: location
+          in: query
+          description: LocationOffice primary key
+          type: integer
+          format: int64
+        - name: state
+          in: query
+          description: State of position
+          type: string  
+        - name: handlerTeamId
+          in: query
+          description: HandlerTeam primary key
+          type: integer  
+          format: int64
+        - name: handlerId
+          in: query
+          description: Glober primary key
+          type: integer
+          format: int64
+        - name: ticketNumber
+          in: query
+          description: Issue track number
+          type: integer  
+        - name: businessUnitId
+          in: query
+          description: BusinessUnit primary key
+          type: integer
+          format: int64
+        - name: clientId
+          in: query
+          description: Client primary key
+          type: integer
+      responses:
+        200:
+          description:  List all position objects
+          schema:
+            title: Positions
+            type: array
+            items:
+              $ref: '#/definitions/Position'
+        500:
+          description: Internal server error      
+  /positions/{positionId}:
+    get:
+      summary: Positions Count
+      description: 
+        This service will use the get position by id from the database.
+      parameters:
+        - name: positionId
+          in: path
+          description: Position primary key
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description:  Position Object
+          schema:
+            title: Position
+            type: object
+            items:
+              $ref: '#/definitions/Position'
+        500:
+          description: Internal server error
+    put:
+      summary: Positions Update
+      description: 
+        This service will update the position object.
+      parameters:
+        - name: positionId
+          in: path
+          type: integer
+          description: ID of the position
+          required: true
+        - name: position
+          in: body
+          description: The pet JSON you want to position
+          schema:
+            $ref: '#/definitions/Position'
+          required: true
+      responses:
+        200:
+          description: Sends the updated position
+        500:
+          description: Internal server error
+    delete:
+      summary: Position Delete
+      description: 
+        This service will use the get position by id and delete the position object from the database.
+      parameters:
+        - name: positionId
+          in: path
+          type: integer
+          description: ID of the position
+          required: true
+      responses:
+        204:
+          description: Position deleted successfully
+        500:
+          description: Internal server error
+
+  /clients:
+    get:
+      summary: Clients List
+      description: 
+        This service will get all the clients list from database
+      responses:
+        200:
+          description:  List all client objects
+          schema:
+            title: Clients
+            type: array
+            items:
+              $ref: '#/definitions/Client'
+        500:
+          description: Internal server error
+    post:
+      summary: Create new client
+      description: 
+        This service will create new client by getting the details for the client.
+      parameters:
+        - name: client
+          in: body
+          description: The client JSON you want to post. 
+          schema:
+            $ref: '#/definitions/Client'
+          required: true
+      responses:
+        201:
+          description: Create a new client
+        500:
+          description: Internal server error
+  
+  /clients/{clientId}:
+    get:
+      summary: Client details
+      description: 
+        This service will get all the client details from database
+      parameters:
+        - name: clientId
+          in: path
+          type: integer
+          description: ID of the client
+          required: true
+      responses:
+        200:
+          description:  Client object
+          schema:
+            title: Client
+            type: object
+            items:
+              $ref: '#/definitions/Client'
+        500:
+          description: Internal server error      
+    put:
+      summary: Update client
+      description: 
+        This service will update the client.
+      parameters:
+        - name: clientId
+          in: path
+          type: integer
+          description: ID of the client
+          required: true
+        - name: client
+          in: body
+          description: The client JSON you want to client
+          schema:
+            $ref: '#/definitions/Client'
+          required: true
+      responses:
+        200:
+          description: Sends the updated client
+        500:
+          description: Internal server error
+    delete:
+      summary: Delete client
+      description: 
+        This service will delete the client by client id.
+      parameters:
+        - name: clientId
+          in: path
+          type: integer
+          description: ID of the client
+          required: true
+      responses:
+        200:
+          description: Sends the deleted client
+        500:
+          description: Internal server error
+  
+  /clients/businessunits/{businessUnitId}:
+    get:
+      summary: Client details
+      description: 
+        This service will get all the client details from database
+        by business unit id
+      parameters:
+        - name: businessUnitId
+          in: path
+          type: integer
+          description: ID of the businessUnit
+          required: true
+      responses:
+        200:
+          description:  Client object
+          schema:
+            title: Client
+            type: object
+            items:
+              $ref: '#/definitions/Client'
+        500:
+          description: Internal server error
+
+  /projects:
+    get:
+      summary: Projects List
+      description: 
+        This service will get all the projects list from database
+      parameters:
+        - name: projectId
+          in: query
+          description: Project primary key
+          type: integer
+        - name: clientId
+          in: query
+          description: Client primary key
+          type: integer
+        - name: projectName
+          in: query
+          description: Project name
+          type: string
+      responses:
+        200:
+          description:  List all projects objects
+          schema:
+            title: Projects
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+        500:
+          description: Internal server error
+    post:
+      summary: Create new project
+      description: 
+        This service will create new project by getting the details for the project.
+      parameters:
+        - name: project
+          in: body
+          description: The project JSON you want to post. 
+          schema:
+            $ref: '#/definitions/Project'
+          required: true
+      responses:
+        201:
+          description: Create a new project
+        500:
+          description: Internal server error
+          
+  /projects/{projectId}:
+    get:
+      summary: Project details
+      description: 
+        This service will get all the Project details from database
+      parameters:
+        - name: projectId
+          in: path
+          type: integer
+          description: ID of the Project
+          required: true
+      responses:
+        200:
+          description:  Project object
+          schema:
+            title: Project
+            type: object
+            items:
+              $ref: '#/definitions/Project'  
+        500:
+          description: Internal server error
+    
+  /globers:
+    get:
+      summary: Globers List
+      description: 
+        This service will get all the globers list from database
+      parameters:
+        - name: id
+          in: query
+          description: Glober primary key
+          type: integer
+        - name: username
+          in: query
+          description: User name
+          type: string
+        - name: workEmail
+          in: query
+          description: Glober email
+          type: string
+        - name: studio
+          in: query
+          description: Glober studio id
+          type: integer
+      responses:
+        200:
+          description:  List all globers objects
+          schema:
+            title: Globers
+            type: array
+            items:
+              $ref: '#/definitions/Glober'
+        500:
+          description: Internal server error
+    
+    post:
+      summary: Create new glober
+      description: 
+        This service will create new glober by getting the details for the glober.
+      parameters:
+        - name: glober
+          in: body
+          description: The glober JSON you want to post. 
+          schema:
+            $ref: '#/definitions/Glober'
+          required: true
+      responses:
+        201:
+          description: Create a new glober
+        500:
+          description: Internal server error 
+  
+  /globers/columns:
+    get:
+      summary: List of all columns for Staffing by globers as type
+      description: 
+        This will get the columns list which we needs to use in Globers primary menu 
+      responses:
+        200:
+          description:  List all column objects for Staffing by globers as type
+          schema:
+            title: StaffingColumns
+            type: array
+            items:
+              $ref: '#/definitions/StaffingColumn'
+        500:
+          description: Internal server error
+  
+  /globers/views:
+    get:
+      summary: All Views for the Staffing by globers as type
+      description: 
+        This service will get all the views which is been displayed for the user
+      parameters:
+        - name: globerId
+          in: query
+          description: Glober primary key
+          type: integer
+        
+      responses:
+        200:
+          description:  List all views objects for Staffing by globers as type
+          schema:
+            title: StaffingViews
+            type: array
+            items:
+              $ref: '#/definitions/StaffingView'
+        500:
+          description: Internal server error
+          
+    
+  
+  /users:
+    get:
+      summary: User information and access rights
+      description: 
+        This service will get the logged in user information along with the navigation menus list
+      parameters:
+        - name: userName
+          in: query
+          description: Logged in Globers username
+          type: string
+      responses:
+        200:
+          description:  User informations
+          schema:
+            title: User
+            type: object
+            items:
+               $ref: '#/definitions/User'
+            
+        500:
+          description: Internal server error
+          
+definitions:
+
+  Position:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        
+  Client:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      address:
+        type: object
+      businessUnit:
+        type: object
+
+  
+  Project:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      client:
+        type: object
+      submitterName:
+        type: string
+        
+  Glober:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      workEmail:
+        type: string
+      contactNumber:
+        type: integer
+      studio:
+        type: object
+        
+  StaffingColumn:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string 
+      type:
+        type: string
+      active:
+        type: boolean
+  
+  StaffingView:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string 
+      viewColumns:
+        type: array
+        items:
+          $ref: '#/definitions/StaffingColumn'  
+      defaultView:
+        type: boolean
+      filterCriteria:
+        type: string
+      customView:
+        type: boolean
+      sharedView:
+        type: boolean
+      createdDate:
+        type: string
+        format: date
+      updatedDate:
+        type: string
+        format: date
+      active:
+        type: boolean
+      type:
+        type: string
+  
+  User:
+    type: object
+    properties:
+      userDetails:
+        type: object
+        items:
+          $ref: '#/definitions/UserDetails'  
+      navigations:
+        type: object
+        items:
+          $ref: '#/definitions/Navigations'  
+  
+  UserDetails:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      roleId:
+        type: integer
+      roleName:
+        type: string
+       
+  Navigations:
+    type: object
+    properties:
+      globalNavList:
+        type: array
+        items:
+          $ref: '#/definitions/GlobalNavigation'
+  
+  GlobalNavigation:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string   
+      url:
+        type: string
+      primaryNavList:
+        type: array
+        items:
+          $ref: '#/definitions/PrimaryNavigation'  
+  
+  PrimaryNavigation:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string  
+      url:
+        type: string
