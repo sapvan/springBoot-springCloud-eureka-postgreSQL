@@ -1,4 +1,4 @@
-package se.callista.microservises.support.discovery;
+package com.globant.glow.staffing;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 @IntegrationTest("server.port=0")
 @Ignore
 public class ApplicationTests {
-	
+
 	@Value("${local.server.port}")
 	private int port = 0;
 

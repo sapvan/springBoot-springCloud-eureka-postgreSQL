@@ -1,16 +1,17 @@
-package com.example;
+package com.globant.glow.staffing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
-@EnableConfigServer
+@EnableEurekaServer
 @EnableDiscoveryClient
-public class CentralConfigServerApplication {
+public class EurekaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CentralConfigServerApplication.class, args);
+		SpringApplication.run(EurekaApplication.class, args);
 	}
+
 }

@@ -35,9 +35,10 @@ public class GlobersController {
 
 
     /**
-	 * Get the user information along with its default role details
-	 * @param userName
-	 * @return userInfo json
+	 * Get the column list for the globers menu
+	 * @param columnFor- column type
+	 * @param isActive- Column status
+	 * @return columnList json
 	 */
 	@RequestMapping(value="/globers/columns", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<StaffingColumn>> getStaffingColumnList(@QueryParam("columnFor") String columnFor,@QueryParam("isActive") boolean isActive) {
@@ -52,5 +53,27 @@ public class GlobersController {
 		}
 		LOGGER.info("Exit from getStaffingColumnList method of GlobersController");
 		return new ResponseEntity<List<StaffingColumn>>(staffingColumnList, HttpStatus.OK);
+	}
+
+
+	/**
+	 * Get the view list for the globers menu
+	 * @param columnFor- column type
+	 * @param isActive- Column status
+	 * @return columnList json
+	 */
+	@RequestMapping(value="/globers/views", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getStaffingViewList(@QueryParam("userId") long userId,@QueryParam("viewFor") String viewFor,@QueryParam("isActive") boolean isActive) {
+		LOGGER.info("Inside getStaffingViewList method of GlobersController");
+		String staffingViewList = null;
+		try {
+			staffingViewList = globersService.getStaffingViewList(userId,viewFor,isActive);
+		}
+		catch(Exception e) {
+			LOGGER.error("Exception in getStaffingViewList method of GlobersController: ",e);
+			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		LOGGER.info("Exit from getStaffingViewList method of GlobersController");
+		return new ResponseEntity<String>(staffingViewList, HttpStatus.OK);
 	}
 }

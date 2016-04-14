@@ -21,9 +21,10 @@ public class GlobersServiceImpl implements GlobersService {
 	GlobersDao globersDao;
 
 	/**
-	 * Get the user information along with its default role details
-	 * @param userName
-	 * @return userInfo object
+	 * Get the column list for the globers menu
+	 * @param columnFor- column type
+	 * @param isActive- Column status
+	 * @return columnList json
 	 */
 	@Override
 	public List<StaffingColumn> getStaffingColumnList(String columnFor, boolean isActive) throws Exception {
@@ -31,6 +32,13 @@ public class GlobersServiceImpl implements GlobersService {
 		List<StaffingColumn> staffingColumnList = globersDao.getStaffingColumnList(columnFor,isActive);
 		LOGGER.info("Inside getStaffingColumnList method of GlobersServiceImpl");
 		return staffingColumnList;
+	}
+
+	@Override
+	public String getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception {
+
+
+		return null;
 	}
 
 }

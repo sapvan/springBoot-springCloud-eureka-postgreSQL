@@ -1,17 +1,16 @@
-package se.callista.microservises.support.discovery;
+package com.globant.glow.staffing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
-@EnableEurekaServer
+@EnableConfigServer
 @EnableDiscoveryClient
-public class EurekaApplication {
+public class CentralConfigServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EurekaApplication.class, args);
+		SpringApplication.run(CentralConfigServerApplication.class, args);
 	}
-
 }
