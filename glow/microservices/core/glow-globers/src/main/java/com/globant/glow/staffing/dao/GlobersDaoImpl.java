@@ -48,9 +48,25 @@ public class GlobersDaoImpl implements GlobersDao{
 	}
 
 	@Override
+	public StaffingView getdefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception {
+		LOGGER.info("Inside getdefaultViewByUserId method of GlobersDaoImpl");
+		String hql = "select sudv.staffingView from StaffingUserDefaultView sudv where sudv.defaultViewFor=:defaultViewFor and sudv.isActive=:isActive and "
+				+ "sudv.user.id=:userId";
+		Query query = getSession().createQuery(hql);
+		query.setLong("userId", userId);
+		query.setString("defaultViewFor", defaultViewFor);
+		query.setBoolean("isActive", isActive);
+		StaffingView defaultView = (StaffingView) query.uniqueResult();
+		LOGGER.info("Exit from getdefaultViewByUserId method of GlobersDaoImpl");
+		return defaultView;
+	}
+
+
+	@Override
 	public List<StaffingView> getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception {
 		LOGGER.info("Inside getStaffingViewList method of GlobersDaoImpl");
-		String hql = "select sv from StaffingView sv where sv.viewFor=:viewFor and sc.isActive=:isActive";
+		String hql = "select sv from StaffingView sv where sv.viewFor=:viewFor and sv.isActive=:isActive and "
+				+ "(sv.user.id=:userId or sv.user.id is null)";
 		Query query = getSession().createQuery(hql);
 		query.setLong("userId", userId);
 		query.setString("viewFor", viewFor);
@@ -59,5 +75,6 @@ public class GlobersDaoImpl implements GlobersDao{
 		LOGGER.info("Exit from getStaffingViewList method of GlobersDaoImpl");
 		return staffingViewList;
 	}
+
 
 }

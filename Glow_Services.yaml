@@ -601,9 +601,9 @@ definitions:
         type: integer
       name:
         type: string 
-      columnFor:
+      type:
         type: string
-      isActive:
+      active:
         type: boolean
   
   StaffingView:
@@ -617,13 +617,13 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/StaffingColumn'  
+      defaultView:
+        type: boolean
       filterCriteria:
         type: string
-      isDefaultView:
+      customView:
         type: boolean
-      isCustomView:
-        type: boolean
-      isSharedView:
+      sharedView:
         type: boolean
       createdDate:
         type: string
@@ -631,11 +631,10 @@ definitions:
       updatedDate:
         type: string
         format: date
-      isActive:
-        type: boolean
       viewFor:
         type: string
-  
+      isActive:
+        type: boolean
   User:
     type: object
     properties:
