@@ -1,4 +1,4 @@
-package se.callista.microservises.support.monitordashboard;
+package com.globant.glow.staffing;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @EnableHystrixDashboard
 public class HystrixDashboardApplication extends SpringBootServletInitializer {
-	
+
 	@RequestMapping("/")
 	public String home() {
 		return "forward:/hystrix";

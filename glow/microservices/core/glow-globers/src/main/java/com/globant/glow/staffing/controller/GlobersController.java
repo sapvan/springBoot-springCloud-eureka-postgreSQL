@@ -24,7 +24,7 @@ public class GlobersController {
 
 	@RequestMapping("/")
 	public String hello() {
-		return "Helloso";
+		return "Hello";
 	}
 
 

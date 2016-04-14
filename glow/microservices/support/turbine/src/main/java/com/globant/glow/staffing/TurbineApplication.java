@@ -1,4 +1,4 @@
-package se.callista.microservises.support.turbine;
+package com.globant.glow.staffing;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
