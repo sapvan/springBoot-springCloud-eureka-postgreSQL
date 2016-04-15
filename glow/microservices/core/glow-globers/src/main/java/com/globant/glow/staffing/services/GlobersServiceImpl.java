@@ -41,7 +41,7 @@ public class GlobersServiceImpl implements GlobersService {
 
 	@Override
 	public String getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception {
-		StaffingView defaultView = globersDao.getdefaultViewByUserId(userId, viewFor, isActive);
+		StaffingView defaultView = globersDao.getDefaultViewByUserId(userId, viewFor, isActive);
 		boolean isDefault = false;
 		if(defaultView!=null) {
 

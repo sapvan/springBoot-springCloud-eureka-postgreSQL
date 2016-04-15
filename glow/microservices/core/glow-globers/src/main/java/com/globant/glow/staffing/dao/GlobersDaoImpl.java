@@ -48,7 +48,7 @@ public class GlobersDaoImpl implements GlobersDao{
 	}
 
 	@Override
-	public StaffingView getdefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception {
+	public StaffingView getDefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception {
 		LOGGER.info("Inside getdefaultViewByUserId method of GlobersDaoImpl");
 		String hql = "select sudv.staffingView from StaffingUserDefaultView sudv where sudv.defaultViewFor=:defaultViewFor and sudv.isActive=:isActive and "
 				+ "sudv.user.id=:userId";
