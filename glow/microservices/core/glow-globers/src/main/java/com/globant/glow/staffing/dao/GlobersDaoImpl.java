@@ -76,5 +76,33 @@ public class GlobersDaoImpl implements GlobersDao{
 		return staffingViewList;
 	}
 
+	@Override
+	public List<Object[]> getGlobersListForGlobalTpView(long viewId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Object[]> getGlobersListForFollowingView(long viewId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Object[]> getGlobersListForUnassignedView(long viewId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Object[]> getGlobersListForAllGlobersView(long viewId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

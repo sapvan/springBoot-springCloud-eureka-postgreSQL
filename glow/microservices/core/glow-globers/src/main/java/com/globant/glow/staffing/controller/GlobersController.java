@@ -41,8 +41,10 @@ public class GlobersController {
 	 * @return columnList json
 	 */
 	@RequestMapping(value="/globers/columns", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<StaffingColumn>> getStaffingColumnList(@QueryParam("columnFor") String columnFor,@QueryParam("isActive") boolean isActive) {
+	public ResponseEntity<List<StaffingColumn>> getStaffingColumnList() {
 		LOGGER.info("Inside getStaffingColumnList method of GlobersController");
+		String columnFor = "globers";
+		boolean isActive = true;
 		List<StaffingColumn> staffingColumnList = null;
 		try {
 			staffingColumnList = globersService.getStaffingColumnList(columnFor,isActive);
@@ -63,8 +65,10 @@ public class GlobersController {
 	 * @return columnList json
 	 */
 	@RequestMapping(value="/globers/views", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> getStaffingViewList(@QueryParam("userId") long userId,@QueryParam("viewFor") String viewFor,@QueryParam("isActive") boolean isActive) {
+	public ResponseEntity<String> getStaffingViewList(@QueryParam("userId") long userId) {
 		LOGGER.info("Inside getStaffingViewList method of GlobersController");
+		String viewFor = "globers";
+		boolean isActive = true;
 		String staffingViewList = null;
 		try {
 			staffingViewList = globersService.getStaffingViewList(userId,viewFor,isActive);
@@ -75,5 +79,27 @@ public class GlobersController {
 		}
 		LOGGER.info("Exit from getStaffingViewList method of GlobersController");
 		return new ResponseEntity<String>(staffingViewList, HttpStatus.OK);
+	}
+
+
+	/**
+	 * Get the view list for the globers menu
+	 * @param columnFor- column type
+	 * @param isActive- Column status
+	 * @return columnList json
+	 */
+	@RequestMapping(value="/globers", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getGlobersListForView(@QueryParam("viewId") long viewId) {
+		LOGGER.info("Inside getGlobersListForView method of GlobersController");
+		String globersList = null;
+		try {
+			globersList = globersService.getGlobersListForView(viewId);
+		}
+		catch(Exception e) {
+			LOGGER.error("Exception in getGlobersListForView method of GlobersController: ",e);
+			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		LOGGER.info("Exit from getGlobersListForView method of GlobersController");
+		return new ResponseEntity<String>(globersList, HttpStatus.OK);
 	}
 }
