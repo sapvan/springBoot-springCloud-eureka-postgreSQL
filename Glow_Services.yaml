@@ -506,10 +506,10 @@ paths:
         200:
           description:  List all views objects for Staffing by globers as type
           schema:
-            title: StaffingViews
-            type: array
+            title: views
+            type: object
             items:
-              $ref: '#/definitions/StaffingView'
+              $ref: '#/definitions/View'
         500:
           description: Internal server error
           
@@ -605,7 +605,19 @@ definitions:
         type: string
       active:
         type: boolean
-  
+        
+  View:
+    type: object
+    properties:
+      viewList:
+        type: array
+        items:
+          $ref: '#/definitions/StaffingView'  
+      defaultView:
+        type: object
+        items:
+          $ref: '#/definitions/StaffingView'  
+      
   StaffingView:
     type: object
     properties:
@@ -614,11 +626,7 @@ definitions:
       name:
         type: string 
       columns:
-        type: array
-        items:
-          $ref: '#/definitions/StaffingColumn'  
-      defaultView:
-        type: boolean
+        type: string
       filterCriteria:
         type: string
       customView:
