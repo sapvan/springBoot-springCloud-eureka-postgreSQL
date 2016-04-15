@@ -122,30 +122,35 @@ public class UsersController {
 			homeForStaffing.put("id", "");
 			homeForStaffing.put("name", "Home");
 			homeForStaffing.put("url", "/staffing/home");
+			homeForStaffing.put("urlRouteName", "StaffingHome");
 			staffingPrimaryNavArr.put(homeForStaffing);
 
 			JSONObject staffRequestsForStaffing = new JSONObject();
 			staffRequestsForStaffing.put("id", "");
 			staffRequestsForStaffing.put("name", "Staff Requests");
 			staffRequestsForStaffing.put("url", "/staffing/staffrequests");
+			staffRequestsForStaffing.put("urlRouteName", "StaffingStaffRequests");
 			staffingPrimaryNavArr.put(staffRequestsForStaffing);
 
 			JSONObject projectsForStaffing = new JSONObject();
 			projectsForStaffing.put("id", "");
 			projectsForStaffing.put("name", "Projects");
 			projectsForStaffing.put("url", "/staffing/projects");
+			projectsForStaffing.put("urlRouteName", "StaffingProjects");
 			staffingPrimaryNavArr.put(projectsForStaffing);
 
 			JSONObject globersForStaffing = new JSONObject();
 			globersForStaffing.put("id", "");
 			globersForStaffing.put("name", "Globers");
 			globersForStaffing.put("url", "/staffing/globers");
+			globersForStaffing.put("urlRouteName", "StaffingGlobers");
 			staffingPrimaryNavArr.put(globersForStaffing);
 
 			JSONObject capacityForStaffing = new JSONObject();
 			capacityForStaffing.put("id", "");
 			capacityForStaffing.put("name", "Capacity");
 			capacityForStaffing.put("url", "/staffing/capacity");
+			capacityForStaffing.put("urlRouteName", "StaffingCapacity");
 			staffingPrimaryNavArr.put(capacityForStaffing);
 
 			staffingGlobalNavObj.put("primaryNavList", staffingPrimaryNavArr);
