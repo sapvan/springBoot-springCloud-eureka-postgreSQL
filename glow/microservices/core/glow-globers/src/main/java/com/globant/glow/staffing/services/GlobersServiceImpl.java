@@ -175,60 +175,192 @@ public class GlobersServiceImpl implements GlobersService {
 			List<Object[]> globerList = null;
 			if(viewId==1) {			//My TP
 				globerList = globersDao.getGlobersListForMyTpView(viewId);
+
+				if(globerList!=null) {
+					for(Object[] glober: globerList) {
+						long id = (Long) glober[0];
+						String userName = (String) glober[1];
+						String workEmail = (String) glober[2];
+						String firstName = (String) glober[3];
+						String lastName = (String) glober[4];
+						String location = (String) glober[5];
+						String position = (String) glober[6];
+						String seniority = (String) glober[7];
+						String studio = (String) glober[8];
+
+						String benchStartDateStr = "1-3-2016";
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+						JSONObject globerObj = new JSONObject();
+						globerObj.put("id", id);
+						globerObj.put("name", firstName+" "+lastName);
+						globerObj.put("email", workEmail);
+						globerObj.put("position", position);
+						globerObj.put("seniority", seniority);
+						globerObj.put("skills", "");
+						globerObj.put("availablity", "100");
+						globerObj.put("benchStartDate", benchStartDateStr);
+						globerObj.put("studio", studio);
+						globerObj.put("location", location);
+						globerObj.put("leader", "");
+						globerObj.put("handler", "");
+						globerObj.put("status", "");
+						globerArr.put(globerObj);
+					}
+				}
 			}
 			else if(viewId==2) {	//Global TP
 				globerList = globersDao.getGlobersListForGlobalTpView(viewId);
+
+				if(globerList!=null) {
+					for(Object[] glober: globerList) {
+						long id = (Long) glober[0];
+						String userName = (String) glober[1];
+						String workEmail = (String) glober[2];
+						String firstName = (String) glober[3];
+						String lastName = (String) glober[4];
+						String location = (String) glober[5];
+						String position = (String) glober[6];
+						String seniority = (String) glober[7];
+						String studio = (String) glober[8];
+						InternalAssignmentType project = (InternalAssignmentType) glober[9];
+						Date benchStartDate = (Date) glober[10];
+						int availablity = (int) glober[11];
+
+						String benchStartDateStr = "";
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+						if(benchStartDate!=null) {
+							benchStartDateStr = formatter.format(benchStartDate);
+						}
+
+						JSONObject globerObj = new JSONObject();
+						globerObj.put("id", id);
+						globerObj.put("name", firstName+" "+lastName);
+						globerObj.put("email", workEmail);
+						globerObj.put("position", position);
+						globerObj.put("seniority", seniority);
+						globerObj.put("skills", "");
+						globerObj.put("availablity", availablity);
+						globerObj.put("benchStartDate", benchStartDateStr);
+						globerObj.put("studio", studio);
+						globerObj.put("location", location);
+						globerObj.put("leader", "");
+						globerObj.put("handler", "");
+						globerObj.put("status", "");
+						globerArr.put(globerObj);
+					}
+				}
 			}
 			else if(viewId==3) {	//Following TP
 				globerList = globersDao.getGlobersListForFollowingView(viewId);
+
+				if(globerList!=null) {
+					for(Object[] glober: globerList) {
+						long id = (Long) glober[0];
+						String userName = (String) glober[1];
+						String workEmail = (String) glober[2];
+						String firstName = (String) glober[3];
+						String lastName = (String) glober[4];
+						String location = (String) glober[5];
+						String position = (String) glober[6];
+						String seniority = (String) glober[7];
+						String studio = (String) glober[8];
+
+						String benchStartDateStr = "1-3-2016";
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+						JSONObject globerObj = new JSONObject();
+						globerObj.put("id", id);
+						globerObj.put("name", firstName+" "+lastName);
+						globerObj.put("email", workEmail);
+						globerObj.put("position", position);
+						globerObj.put("seniority", seniority);
+						globerObj.put("skills", "");
+						globerObj.put("availablity", "100");
+						globerObj.put("benchStartDate", benchStartDateStr);
+						globerObj.put("studio", studio);
+						globerObj.put("location", location);
+						globerObj.put("leader", "");
+						globerObj.put("handler", "");
+						globerObj.put("status", "");
+						globerArr.put(globerObj);
+					}
+				}
 			}
 			else if(viewId==4) {	//Un-assigned BU/Studio
 				globerList = globersDao.getGlobersListForUnassignedView(viewId);
+
+				if(globerList!=null) {
+					for(Object[] glober: globerList) {
+						long id = (Long) glober[0];
+						String userName = (String) glober[1];
+						String workEmail = (String) glober[2];
+						String firstName = (String) glober[3];
+						String lastName = (String) glober[4];
+						String location = (String) glober[5];
+						String position = (String) glober[6];
+						String seniority = (String) glober[7];
+						String studio = (String) glober[8];
+
+						String benchStartDateStr = "1-3-2016";
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+						JSONObject globerObj = new JSONObject();
+						globerObj.put("id", id);
+						globerObj.put("name", firstName+" "+lastName);
+						globerObj.put("email", workEmail);
+						globerObj.put("position", position);
+						globerObj.put("seniority", seniority);
+						globerObj.put("skills", "");
+						globerObj.put("availablity", "100");
+						globerObj.put("benchStartDate", benchStartDateStr);
+						globerObj.put("studio", studio);
+						globerObj.put("location", location);
+						globerObj.put("leader", "");
+						globerObj.put("handler", "");
+						globerObj.put("status", "");
+						globerArr.put(globerObj);
+					}
+				}
 			}
 			else if(viewId==5) {	//All Globers
 				globerList = globersDao.getGlobersListForAllGlobersView(viewId);
+
+				if(globerList!=null) {
+					for(Object[] glober: globerList) {
+						long id = (Long) glober[0];
+						String userName = (String) glober[1];
+						String workEmail = (String) glober[2];
+						String firstName = (String) glober[3];
+						String lastName = (String) glober[4];
+						String location = (String) glober[5];
+						String position = (String) glober[6];
+						String seniority = (String) glober[7];
+						String studio = (String) glober[8];
+
+						String benchStartDateStr = "";
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+						JSONObject globerObj = new JSONObject();
+						globerObj.put("id", id);
+						globerObj.put("name", firstName+" "+lastName);
+						globerObj.put("email", workEmail);
+						globerObj.put("position", position);
+						globerObj.put("seniority", seniority);
+						globerObj.put("skills", "");
+						globerObj.put("availablity", "100");
+						globerObj.put("benchStartDate", "2-2-2016");
+						globerObj.put("studio", studio);
+						globerObj.put("location", location);
+						globerObj.put("leader", "");
+						globerObj.put("handler", "");
+						globerObj.put("status", "");
+						globerArr.put(globerObj);
+					}
+				}
 			}
 			else {					//Custom Views
 
-			}
-
-			if(globerList!=null) {
-				for(Object[] glober: globerList) {
-					long id = (Long) glober[0];
-					String userName = (String) glober[1];
-					String workEmail = (String) glober[2];
-					String firstName = (String) glober[3];
-					String lastName = (String) glober[4];
-					String location = (String) glober[5];
-					String position = (String) glober[6];
-					String seniority = (String) glober[7];
-					String studio = (String) glober[8];
-					InternalAssignmentType project = (InternalAssignmentType) glober[9];
-					Date benchStartDate = (Date) glober[10];
-					int availablity = (int) glober[11];
-
-					String benchStartDateStr = "";
-					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-					if(benchStartDate!=null) {
-						benchStartDateStr = formatter.format(benchStartDate);
-					}
-
-					JSONObject globerObj = new JSONObject();
-					globerObj.put("id", id);
-					globerObj.put("name", firstName+" "+lastName);
-					globerObj.put("email", workEmail);
-					globerObj.put("position", position);
-					globerObj.put("seniority", seniority);
-					globerObj.put("skills", "");
-					globerObj.put("availablity", availablity);
-					globerObj.put("benchStartDate", benchStartDateStr);
-					globerObj.put("studio", studio);
-					globerObj.put("location", location);
-					globerObj.put("leader", "");
-					globerObj.put("handler", "");
-					globerObj.put("status", "");
-					globerArr.put(globerObj);
-				}
 			}
 		}
 
