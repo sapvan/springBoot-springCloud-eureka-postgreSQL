@@ -123,6 +123,7 @@ public class UsersController {
 			homeForStaffing.put("name", "Home");
 			homeForStaffing.put("url", "/staffing/home");
 			homeForStaffing.put("urlRouteName", "StaffingHome");
+			homeForStaffing.put("classes", "icon-ico_home");
 			staffingPrimaryNavArr.put(homeForStaffing);
 
 			JSONObject staffRequestsForStaffing = new JSONObject();
@@ -130,6 +131,7 @@ public class UsersController {
 			staffRequestsForStaffing.put("name", "Staff Requests");
 			staffRequestsForStaffing.put("url", "/staffing/staffrequests");
 			staffRequestsForStaffing.put("urlRouteName", "StaffingStaffRequests");
+			staffRequestsForStaffing.put("classes", "icon-ico_staff_requests");
 			staffingPrimaryNavArr.put(staffRequestsForStaffing);
 
 			JSONObject projectsForStaffing = new JSONObject();
@@ -137,6 +139,7 @@ public class UsersController {
 			projectsForStaffing.put("name", "Projects");
 			projectsForStaffing.put("url", "/staffing/projects");
 			projectsForStaffing.put("urlRouteName", "StaffingProjects");
+			projectsForStaffing.put("classes", "icon-ico_projects");
 			staffingPrimaryNavArr.put(projectsForStaffing);
 
 			JSONObject globersForStaffing = new JSONObject();
@@ -144,6 +147,7 @@ public class UsersController {
 			globersForStaffing.put("name", "Globers");
 			globersForStaffing.put("url", "/staffing/globers");
 			globersForStaffing.put("urlRouteName", "StaffingGlobers");
+			globersForStaffing.put("classes", "icon-ico_glowber");
 			staffingPrimaryNavArr.put(globersForStaffing);
 
 			JSONObject capacityForStaffing = new JSONObject();
@@ -151,6 +155,7 @@ public class UsersController {
 			capacityForStaffing.put("name", "Capacity");
 			capacityForStaffing.put("url", "/staffing/capacity");
 			capacityForStaffing.put("urlRouteName", "StaffingCapacity");
+			capacityForStaffing.put("classes", "icon-ico_capacity_plan");
 			staffingPrimaryNavArr.put(capacityForStaffing);
 
 			staffingGlobalNavObj.put("primaryNavList", staffingPrimaryNavArr);

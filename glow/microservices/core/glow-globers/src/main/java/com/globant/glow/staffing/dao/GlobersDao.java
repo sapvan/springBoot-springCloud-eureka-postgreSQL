@@ -14,6 +14,8 @@ public interface GlobersDao {
 
 	public List<StaffingView> getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception;
 
+	public List<Object[]> getGlobersListForMyTpView(long viewId) throws Exception;
+
 	public List<Object[]> getGlobersListForGlobalTpView(long viewId) throws Exception;
 
 	public List<Object[]> getGlobersListForFollowingView(long viewId) throws Exception;

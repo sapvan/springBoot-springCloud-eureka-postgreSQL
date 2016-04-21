@@ -14,11 +14,12 @@ endpoints:
     sensitive: false
 
 zuul:
+  prefix: /glow
   ignoredServices: "*"
   routes:
-    positions: /positionservice/**
     users: /userservice/**
     globers: /globerservice/**
+    positions: /positionservice/**
 
 logging:
   level:

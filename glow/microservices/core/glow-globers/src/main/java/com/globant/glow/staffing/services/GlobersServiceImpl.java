@@ -170,76 +170,55 @@ public class GlobersServiceImpl implements GlobersService {
 		LOGGER.info("Inside getGlobersListForView method of GlobersServiceImpl");
 		JSONArray globerArr = new JSONArray();
 		if(viewId!=0) {
+			List<Object[]> globerList = null;
 			if(viewId==1) {			//My TP
+				globerList = globersDao.getGlobersListForMyTpView(viewId);
 			}
 			else if(viewId==2) {	//Global TP
-
+				globerList = globersDao.getGlobersListForGlobalTpView(viewId);
 			}
 			else if(viewId==3) {	//Following TP
-
+				globerList = globersDao.getGlobersListForFollowingView(viewId);
 			}
 			else if(viewId==4) {	//Un-assigned BU/Studio
+				globerList = globersDao.getGlobersListForUnassignedView(viewId);
+			}
+			else if(viewId==5) {	//All Globers
+				globerList = globersDao.getGlobersListForAllGlobersView(viewId);
+			}
+			else {					//Custom Views
 
 			}
-			else if(viewId==4) {	//All Globers
 
+			if(globerList!=null) {
+				for(Object[] glober: globerList) {
+					long id = (Long) glober[0];
+					String userName = (String) glober[1];
+					String workEmail = (String) glober[2];
+					String firstName = (String) glober[3];
+					String lastName = (String) glober[4];
+					String location = (String) glober[5];
+					String position = (String) glober[6];
+					String seniority = (String) glober[7];
+					String studio = (String) glober[8];
+
+					JSONObject globerObj = new JSONObject();
+					globerObj.put("id", id);
+					globerObj.put("name", firstName+" "+lastName);
+					globerObj.put("email", workEmail);
+					globerObj.put("position", position);
+					globerObj.put("seniority", seniority);
+					globerObj.put("skills", "");
+					globerObj.put("availablity", "");
+					globerObj.put("benchStartDate", "");
+					globerObj.put("studio", studio);
+					globerObj.put("location", location);
+					globerObj.put("leader", "");
+					globerObj.put("handler", "");
+					globerObj.put("status", "");
+					globerArr.put(globerObj);
+				}
 			}
-
-			JSONObject glober1 = new JSONObject();
-			glober1.put("name", "Vishal");
-			glober1.put("position", "Web UI Developer");
-			glober1.put("seniority", "SSr");
-			glober1.put("skills", "Javascript, Html");
-			glober1.put("availablity", "100%");
-			glober1.put("benchStartDate", "10-4-2016");
-			glober1.put("studio", "Consumer Experience");
-			glober1.put("location", "IN/Pune");
-			glober1.put("leader", "Bhushan");
-			glober1.put("handler", "");
-			glober1.put("status", "");
-			globerArr.put(glober1);
-
-			JSONObject glober2 = new JSONObject();
-			glober2.put("name", "Deepak");
-			glober2.put("position", "Web UI Developer");
-			glober2.put("seniority", "SSr");
-			glober2.put("skills", "Javascript, AngularJS");
-			glober2.put("availablity", "100%");
-			glober2.put("benchStartDate", "13-3-2016");
-			glober2.put("studio", "Consumer Experience");
-			glober2.put("location", "IN/Pune");
-			glober2.put("leader", "Bhushan");
-			glober2.put("handler", "");
-			glober2.put("status", "");
-			globerArr.put(glober2);
-
-			JSONObject glober3 = new JSONObject();
-			glober3.put("name", "Joseph");
-			glober3.put("position", "Java Developer");
-			glober3.put("seniority", "SSr");
-			glober3.put("skills", "Spring, Hibernate");
-			glober3.put("availablity", "80%");
-			glober3.put("benchStartDate", "10-4-2016");
-			glober3.put("studio", "Consumer Experience");
-			glober3.put("location", "IN/Pune");
-			glober3.put("leader", "Vinay");
-			glober3.put("handler", "");
-			glober3.put("status", "");
-			globerArr.put(glober3);
-
-			JSONObject glober4 = new JSONObject();
-			glober4.put("name", "Vaibhav");
-			glober4.put("position", "QA");
-			glober4.put("seniority", "SSr");
-			glober4.put("skills", "Manual testing, Automation");
-			glober4.put("availablity", "90%");
-			glober4.put("benchStartDate", "15-4-2016");
-			glober4.put("studio", "QA");
-			glober4.put("location", "IN/Pune");
-			glober4.put("leader", "Vinay");
-			glober4.put("handler", "");
-			glober4.put("status", "");
-			globerArr.put(glober4);
 		}
 
 		LOGGER.info("Exit from getGlobersListForView method of GlobersServiceImpl");

@@ -77,31 +77,77 @@ public class GlobersDaoImpl implements GlobersDao{
 	}
 
 	@Override
-	public List<Object[]> getGlobersListForGlobalTpView(long viewId)
-			throws Exception {
+	public List<Object[]> getGlobersListForMyTpView(long viewId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object[]> getGlobersListForFollowingView(long viewId)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object[]> getGlobersListForGlobalTpView(long viewId) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id";
+		Query query = getSession().createQuery(hql);
+		query.setMaxResults(10);
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
 	}
 
 	@Override
-	public List<Object[]> getGlobersListForUnassignedView(long viewId)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object[]> getGlobersListForFollowingView(long viewId) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id ";
+		Query query = getSession().createQuery(hql);
+		query.setMaxResults(10);
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
 	}
 
 	@Override
-	public List<Object[]> getGlobersListForAllGlobersView(long viewId)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object[]> getGlobersListForUnassignedView(long viewId) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id ";
+		Query query = getSession().createQuery(hql);
+		query.setMaxResults(10);
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
+	}
+
+	@Override
+	public List<Object[]> getGlobersListForAllGlobersView(long viewId) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id ";
+		Query query = getSession().createQuery(hql);
+		query.setMaxResults(10);
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
 	}
 
 
