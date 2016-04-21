@@ -1,5 +1,6 @@
 package com.globant.glow.staffing.services;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globant.glow.core.domain.Glober;
+import com.globant.glow.core.domain.InternalAssignmentType;
 import com.globant.glow.core.domain.staffing.StaffingColumn;
 import com.globant.glow.core.domain.staffing.StaffingView;
 import com.globant.glow.staffing.dao.GlobersDao;
@@ -201,6 +203,15 @@ public class GlobersServiceImpl implements GlobersService {
 					String position = (String) glober[6];
 					String seniority = (String) glober[7];
 					String studio = (String) glober[8];
+					InternalAssignmentType project = (InternalAssignmentType) glober[9];
+					Date benchStartDate = (Date) glober[10];
+					int availablity = (int) glober[11];
+
+					String benchStartDateStr = "";
+					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+					if(benchStartDate!=null) {
+						benchStartDateStr = formatter.format(benchStartDate);
+					}
 
 					JSONObject globerObj = new JSONObject();
 					globerObj.put("id", id);
@@ -209,8 +220,8 @@ public class GlobersServiceImpl implements GlobersService {
 					globerObj.put("position", position);
 					globerObj.put("seniority", seniority);
 					globerObj.put("skills", "");
-					globerObj.put("availablity", "");
-					globerObj.put("benchStartDate", "");
+					globerObj.put("availablity", availablity);
+					globerObj.put("benchStartDate", benchStartDateStr);
 					globerObj.put("studio", studio);
 					globerObj.put("location", location);
 					globerObj.put("leader", "");

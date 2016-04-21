@@ -1,5 +1,7 @@
 package com.globant.glow.staffing.dao;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -86,14 +88,28 @@ public class GlobersDaoImpl implements GlobersDao{
 	public List<Object[]> getGlobersListForGlobalTpView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
-				+ "cd.position, cd.seniority, st.name "
-				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
-				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
-				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
-				+ "si.id = cd.site.id and "
-				+ "st.id = g.studio.id";
+				+ "cd.position, cd.seniority, st.name,a.internalAssignmentType,a.startingDate,a.percentage "
+				+ "from Glober g, ContractInformation ci, ContractData cd,Site si, Studio st,Assignment a "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL "
+				+ "and cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL "
+				+ "and si.id = cd.site.id "
+				+ "and a.glober.id=g.id and "
+				+ "((a.endDate is null and a.startingDate<=:todayDate) "
+				+ "or (a.endDate is null and a.startingDate<=:added21DaysByTodayDate)) "
+				+ "and st.id = g.studio.id";
+
 		Query query = getSession().createQuery(hql);
 		query.setMaxResults(10);
+
+		Date todayDate = new Date();
+		Date added21DaysByTodayDate = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(added21DaysByTodayDate);
+		c.add(Calendar.DATE, 21);
+		added21DaysByTodayDate = c.getTime();
+
+		query.setDate("todayDate", todayDate);
+		query.setDate("added21DaysByTodayDate", added21DaysByTodayDate);
 		List<Object[]> globerList = query.list();
 		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		return globerList;
