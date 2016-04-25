@@ -107,7 +107,8 @@ public class GlobersDaoImpl implements GlobersDao{
 				+ "and a.glober.id=g.id and "
 				+ "((a.endDate is null and a.startingDate<=:todayDate) "
 				+ "or (a.endDate is null and a.startingDate<=:added21DaysByTodayDate)) "
-				+ "and st.id = g.studio.id";
+				+ "and a.internalAssignmentType=:benchProject "
+				+ "and st.id = g.studio.id order by g.username";
 
 		Query query = getSession().createQuery(hql);
 		query.setMaxResults(10);
@@ -121,6 +122,7 @@ public class GlobersDaoImpl implements GlobersDao{
 
 		query.setDate("todayDate", todayDate);
 		query.setDate("added21DaysByTodayDate", added21DaysByTodayDate);
+		query.setString("benchProject", "BENCH");
 		List<Object[]> globerList = query.list();
 		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		return globerList;
