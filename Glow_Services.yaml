@@ -418,24 +418,13 @@ paths:
     get:
       summary: Globers List
       description: 
-        This service will get all the globers list from database
+        This service will get all the globers list from database for the selected view
       parameters:
-        - name: id
+        - name: viewId
           in: query
-          description: Glober primary key
+          description: StaffingView primary key
           type: integer
-        - name: username
-          in: query
-          description: User name
-          type: string
-        - name: workEmail
-          in: query
-          description: Glober email
-          type: string
-        - name: studio
-          in: query
-          description: Glober studio id
-          type: integer
+          format: int64
       responses:
         200:
           description:  List all globers objects
@@ -497,7 +486,7 @@ paths:
       description: 
         This service will get all the views which is been displayed for the user
       parameters:
-        - name: globerId
+        - name: userId
           in: query
           description: Glober primary key
           type: integer
@@ -512,7 +501,41 @@ paths:
               $ref: '#/definitions/View'
         500:
           description: Internal server error
-          
+    
+  /globers/customviews:
+    post:
+      summary: Create new custom view
+      description: 
+        This service will create new custom view by getting the details for the custom view.
+      parameters:
+        - name: name
+          in: formData
+          description: Custom view name
+          type: string
+        - name: userId
+          in: formData
+          description: Primary key of Glober who is creating custom view 
+          type: integer
+          format: int64
+        - name: columns
+          in: formData
+          description: Comma seperated column ids in a json array
+          type: string
+        - name: filterCriteria
+          in: formData
+          description: Filter criteria string which has all filters applied for the custom view 
+          type: string
+        - name: isDefaultView
+          in: formData
+          description: Default view flag(Whether it should be default view or not)
+          type: boolean
+      responses:
+        201:
+          description: Create a new custom view
+        500:
+          description: Internal server error 
+    
+      
     
   
   /users:
@@ -581,18 +604,31 @@ definitions:
       id:
         type: integer
         format: int64
-      username:
+      name:
         type: string
-      firstName:
+      email:
         type: string
-      lastName:
+      position:
         type: string
-      workEmail:
+      seniority:
         type: string
-      contactNumber:
+      skills:
+        type: string
+      availablity:
         type: integer
+      benchStartDate:
+        type: string
+        format: date
       studio:
-        type: object
+        type: string
+      location:
+        type: string
+      leader:
+        type: string
+      handler:
+        type: string
+      status:
+        type: string
         
   StaffingColumn:
     type: object
@@ -601,9 +637,9 @@ definitions:
         type: integer
       name:
         type: string 
-      type:
+      columnFor:
         type: string
-      active:
+      isActive:
         type: boolean
         
   View:
@@ -697,4 +733,8 @@ definitions:
       name:
         type: string  
       url:
+        type: string
+      urlRouteName:
+        type: string
+      classes:
         type: string

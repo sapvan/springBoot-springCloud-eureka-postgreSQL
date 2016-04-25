@@ -171,10 +171,13 @@ public class GlobersDaoImpl implements GlobersDao{
 				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL "
 				+ "and cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL "
 				+ "and si.id = cd.site.id "
-				+ "and st.id = g.studio.id";
+				+ "and st.id = g.studio.id "
+				+ "and g.billable=:billableTrue";
 
 		Query query = getSession().createQuery(hql);
 		query.setMaxResults(10);
+
+		query.setBoolean("billableTrue", true);
 
 		List<Object[]> globerList = query.list();
 		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");

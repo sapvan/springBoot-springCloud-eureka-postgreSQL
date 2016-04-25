@@ -360,7 +360,9 @@ public class GlobersServiceImpl implements GlobersService {
 				}
 			}
 			else {					//Custom Views
+				//Get filter criteria
 
+				//Get actual data
 			}
 		}
 
