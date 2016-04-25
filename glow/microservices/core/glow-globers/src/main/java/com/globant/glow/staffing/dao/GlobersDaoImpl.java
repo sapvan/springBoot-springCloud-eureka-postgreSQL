@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.globant.glow.core.domain.staffing.StaffingColumn;
+import com.globant.glow.core.domain.staffing.StaffingUserDefaultView;
 import com.globant.glow.core.domain.staffing.StaffingView;
 
 
@@ -49,6 +50,13 @@ public class GlobersDaoImpl implements GlobersDao{
 		return staffingColumnList;
 	}
 
+	/**
+	 * Get the default view for the user
+	 * @param userId- User primary key
+	 * @param defaultViewFor- Default View for
+	 * @param isActive- Active status
+	 * @return defaultView
+	 */
 	@Override
 	public StaffingView getDefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception {
 		LOGGER.info("Inside getdefaultViewByUserId method of GlobersDaoImpl");
@@ -64,6 +72,34 @@ public class GlobersDaoImpl implements GlobersDao{
 	}
 
 
+	/**
+	 * Get the default view for the user
+	 * @param userId- User primary key
+	 * @param defaultViewFor- Default View for
+	 * @param isActive- Active status
+	 * @return defaultView
+	 */
+	@Override
+	public StaffingUserDefaultView getStaffingUserDefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception {
+		LOGGER.info("Inside getStaffingUserDefaultViewByUserId method of GlobersDaoImpl");
+		String hql = "select sudv from StaffingUserDefaultView sudv where sudv.defaultViewFor=:defaultViewFor and sudv.isActive=:isActive and "
+				+ "sudv.user.id=:userId";
+		Query query = getSession().createQuery(hql);
+		query.setLong("userId", userId);
+		query.setString("defaultViewFor", defaultViewFor);
+		query.setBoolean("isActive", isActive);
+		StaffingUserDefaultView staffingUserDefaultView = (StaffingUserDefaultView) query.uniqueResult();
+		LOGGER.info("Exit from getStaffingUserDefaultViewByUserId method of GlobersDaoImpl");
+		return staffingUserDefaultView;
+	}
+
+	/**
+	 * Get the staffing views list with system and custom views for user
+	 * @param userId- User primary key
+	 * @param viewFor- View for
+	 * @param isActive- Active status
+	 * @return staffingViewList
+	 */
 	@Override
 	public List<StaffingView> getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception {
 		LOGGER.info("Inside getStaffingViewList method of GlobersDaoImpl");
@@ -78,6 +114,11 @@ public class GlobersDaoImpl implements GlobersDao{
 		return staffingViewList;
 	}
 
+	/**
+	 * Get the globers list for MyTpView
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
 	@Override
 	public List<Object[]> getGlobersListForMyTpView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
@@ -95,6 +136,11 @@ public class GlobersDaoImpl implements GlobersDao{
 		return globerList;
 	}
 
+	/**
+	 * Get the globers list for GlobalTpView who are in TP or release in 21 days
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
 	@Override
 	public List<Object[]> getGlobersListForGlobalTpView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
@@ -128,6 +174,11 @@ public class GlobersDaoImpl implements GlobersDao{
 		return globerList;
 	}
 
+	/**
+	 * Get the globers list for FollowingView who are followed
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
 	@Override
 	public List<Object[]> getGlobersListForFollowingView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
@@ -145,6 +196,11 @@ public class GlobersDaoImpl implements GlobersDao{
 		return globerList;
 	}
 
+	/**
+	 * Get the globers list for UnassignedView who are new joines
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
 	@Override
 	public List<Object[]> getGlobersListForUnassignedView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
@@ -162,6 +218,11 @@ public class GlobersDaoImpl implements GlobersDao{
 		return globerList;
 	}
 
+	/**
+	 * Get the globers list for GlobalTpView who are all billable globers
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
 	@Override
 	public List<Object[]> getGlobersListForAllGlobersView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
@@ -182,6 +243,24 @@ public class GlobersDaoImpl implements GlobersDao{
 		List<Object[]> globerList = query.list();
 		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		return globerList;
+	}
+
+	@Override
+	public StaffingView addNewCustomStaffingView(StaffingView customView) throws Exception {
+		getSession().save(customView);
+		return customView;
+	}
+
+	@Override
+	public StaffingUserDefaultView addNewStaffingUserDefaultView(StaffingUserDefaultView staffingUserDefaultView) throws Exception {
+		getSession().save(staffingUserDefaultView);
+		return staffingUserDefaultView;
+	}
+
+	@Override
+	public StaffingUserDefaultView updateStaffingUserDefaultView(StaffingUserDefaultView staffingUserDefaultView) throws Exception {
+		getSession().update(staffingUserDefaultView);
+		return staffingUserDefaultView;
 	}
 
 

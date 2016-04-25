@@ -2,6 +2,7 @@ package com.globant.glow.staffing.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globant.glow.core.domain.staffing.StaffingColumn;
+import com.globant.glow.core.domain.staffing.StaffingView;
 import com.globant.glow.staffing.services.GlobersService;
 
 
@@ -24,7 +26,7 @@ public class GlobersController {
 
 	@RequestMapping("/")
 	public String hello() {
-		return "Hello";
+		return "Globers service";
 	}
 
 
@@ -83,10 +85,9 @@ public class GlobersController {
 
 
 	/**
-	 * Get the view list for the globers menu
-	 * @param columnFor- column type
-	 * @param isActive- Column status
-	 * @return columnList json
+	 * Get the globers list for the selected view
+	 * @param viewId- View primary key
+	 * @return globersList json
 	 */
 	@RequestMapping(value="/globers", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getGlobersListForView(@QueryParam("viewId") long viewId) {
@@ -101,5 +102,25 @@ public class GlobersController {
 		}
 		LOGGER.info("Exit from getGlobersListForView method of GlobersController");
 		return new ResponseEntity<String>(globersList, HttpStatus.OK);
+	}
+
+	/**
+	 * Create new custom view
+	 * @param httpServletRequest- Form data
+	 * @return globersList json
+	 */
+	@RequestMapping(value="/globers", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Boolean> addNewCustomView(HttpServletRequest request) {
+		LOGGER.info("Inside addNewCustomView method of GlobersController");
+		boolean customViewCreated = false;
+		try {
+			customViewCreated = globersService.addNewCustomView(request);
+		}
+		catch(Exception e) {
+			LOGGER.error("Exception in addNewCustomView method of GlobersController: ",e);
+			return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		LOGGER.info("Exit from addNewCustomView method of GlobersController");
+		return new ResponseEntity<Boolean>(customViewCreated, HttpStatus.OK);
 	}
 }

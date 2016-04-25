@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import jdk.nashorn.internal.scripts.JS;
+import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.globant.glow.core.domain.Glober;
 import com.globant.glow.core.domain.InternalAssignmentType;
 import com.globant.glow.core.domain.staffing.StaffingColumn;
+import com.globant.glow.core.domain.staffing.StaffingUserDefaultView;
 import com.globant.glow.core.domain.staffing.StaffingView;
 import com.globant.glow.staffing.dao.GlobersDao;
 
@@ -43,6 +44,13 @@ public class GlobersServiceImpl implements GlobersService {
 		return staffingColumnList;
 	}
 
+	/**
+	 * Get the staffing view list for the user id
+	 * @param userId- User primary key
+	 * @param viewFor- view type
+	 * @param isActive- View status
+	 * @return viewList and default view json
+	 */
 	@Override
 	public String getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception {
 		LOGGER.info("Inside getStaffingViewList method of GlobersServiceImpl");
@@ -167,6 +175,11 @@ public class GlobersServiceImpl implements GlobersService {
 		return viewObj.toString();
 	}
 
+	/**
+	 * Get the globers list for the selected view id
+	 * @param viewId- View primary key
+	 * @return globersList json
+	 */
 	@Override
 	public String getGlobersListForView(long viewId) throws Exception {
 		LOGGER.info("Inside getGlobersListForView method of GlobersServiceImpl");
@@ -368,6 +381,70 @@ public class GlobersServiceImpl implements GlobersService {
 
 		LOGGER.info("Exit from getGlobersListForView method of GlobersServiceImpl");
 		return globerArr.toString();
+	}
+
+	@Override
+	public Boolean addNewCustomView(HttpServletRequest request) throws Exception {
+
+		String viewFor = "globers";
+		boolean isActive = true;
+		String name = request.getParameter("name");
+		String userIdStr = request.getParameter("userId");
+		String columns = request.getParameter("columns");
+		String filterCriteria = request.getParameter("filterCriteria");
+		String isDefaultView = request.getParameter("isDefaultView");
+
+		long userId = 0;
+		if(userIdStr!=null && userIdStr.trim().isEmpty()==false) {
+			userId = Long.parseLong(userIdStr);
+		}
+
+		Glober user = null;
+		if(userId!=0) {
+			user = new Glober();
+			user.setId(userId);
+		}
+
+		StaffingView customView = new StaffingView();
+		customView.setName(name);
+		customView.setColumns(columns);
+		customView.setFilterCriteria(filterCriteria);
+
+		customView.setUser(user);
+		customView.setMasterDefault(false);
+		customView.setShareViewId((long) 0);;
+		Date todayDate = new Date();
+		customView.setCreatedDate(todayDate);
+		customView.setUpdatedDate(todayDate);
+		customView.setActive(isActive);
+		customView.setViewFor(viewFor);
+
+		customView = globersDao.addNewCustomStaffingView(customView);
+		if(customView!=null) {
+			if(isDefaultView!=null && isDefaultView.trim().equals("true")) {
+				StaffingUserDefaultView staffingUserDefaultView = globersDao.getStaffingUserDefaultViewByUserId(userId, viewFor, isActive);
+				if(staffingUserDefaultView==null) {
+					staffingUserDefaultView = new StaffingUserDefaultView();
+
+					staffingUserDefaultView.setActive(true);
+					staffingUserDefaultView.setDefaultViewFor(viewFor);
+					staffingUserDefaultView.setStaffingView(customView);
+					staffingUserDefaultView.setUser(user);
+
+					globersDao.addNewStaffingUserDefaultView(staffingUserDefaultView);
+				}
+				else {
+					staffingUserDefaultView.setActive(true);
+					staffingUserDefaultView.setDefaultViewFor(viewFor);
+					staffingUserDefaultView.setStaffingView(customView);
+					staffingUserDefaultView.setUser(user);
+
+					globersDao.updateStaffingUserDefaultView(staffingUserDefaultView);
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 }

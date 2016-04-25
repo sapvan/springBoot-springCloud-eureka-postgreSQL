@@ -3,6 +3,7 @@ package com.globant.glow.staffing.dao;
 import java.util.List;
 
 import com.globant.glow.core.domain.staffing.StaffingColumn;
+import com.globant.glow.core.domain.staffing.StaffingUserDefaultView;
 import com.globant.glow.core.domain.staffing.StaffingView;
 
 
@@ -11,6 +12,8 @@ public interface GlobersDao {
 	public List<StaffingColumn> getStaffingColumnList(String columnFor,boolean isActive) throws Exception;
 
 	public StaffingView getDefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception ;
+
+	public StaffingUserDefaultView getStaffingUserDefaultViewByUserId(long userId,String defaultViewFor,boolean isActive) throws Exception ;
 
 	public List<StaffingView> getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception;
 
@@ -23,4 +26,10 @@ public interface GlobersDao {
 	public List<Object[]> getGlobersListForUnassignedView(long viewId) throws Exception;
 
 	public List<Object[]> getGlobersListForAllGlobersView(long viewId) throws Exception;
+
+	public StaffingView addNewCustomStaffingView(StaffingView customView) throws Exception;
+
+	public StaffingUserDefaultView addNewStaffingUserDefaultView(StaffingUserDefaultView staffingUserDefaultView) throws Exception;
+
+	public StaffingUserDefaultView updateStaffingUserDefaultView(StaffingUserDefaultView staffingUserDefaultView) throws Exception;
 }

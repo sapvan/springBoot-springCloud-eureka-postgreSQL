@@ -2,7 +2,10 @@ package com.globant.glow.staffing.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.globant.glow.core.domain.staffing.StaffingColumn;
+import com.globant.glow.core.domain.staffing.StaffingView;
 
 
 public interface GlobersService {
@@ -13,6 +16,6 @@ public interface GlobersService {
 
 	public String getGlobersListForView(long viewId) throws Exception;
 
-
+	public Boolean addNewCustomView(HttpServletRequest request) throws Exception;
 
 }
