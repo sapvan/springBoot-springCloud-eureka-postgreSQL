@@ -23,7 +23,7 @@ public class UsersController {
 
 	@RequestMapping("/")
 	public String hello() {
-		return "Hello";
+		return "Users service";
 	}
 
 
