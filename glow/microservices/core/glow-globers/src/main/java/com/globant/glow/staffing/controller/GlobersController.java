@@ -90,11 +90,22 @@ public class GlobersController {
 	 * @return globersList json
 	 */
 	@RequestMapping(value="/globers", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> getGlobersListForView(@QueryParam("viewId") long viewId) {
+	public ResponseEntity<String> getGlobersListForView(@QueryParam("viewId") Long viewId,@QueryParam("offset") Integer offset,
+			@QueryParam("limit") Integer limit,@QueryParam("sortingCriteria") String sortingCriteria,
+			@QueryParam("filterCriteria") String filterCriteria) {
 		LOGGER.info("Inside getGlobersListForView method of GlobersController");
 		String globersList = null;
 		try {
-			globersList = globersService.getGlobersListForView(viewId);
+			if(viewId==null){
+				viewId = (long) 0;
+			}
+			if(offset==null){
+				offset = (int) 0;
+			}
+			if(limit==null){
+				limit = (int) 0;
+			}
+			globersList = globersService.getGlobersListForView(viewId,offset,limit,sortingCriteria,filterCriteria);
 		}
 		catch(Exception e) {
 			LOGGER.error("Exception in getGlobersListForView method of GlobersController: ",e);
@@ -109,7 +120,7 @@ public class GlobersController {
 	 * @param httpServletRequest- Form data
 	 * @return globersList json
 	 */
-	@RequestMapping(value="/globers", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/globers/customviews", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Boolean> addNewCustomView(HttpServletRequest request) {
 		LOGGER.info("Inside addNewCustomView method of GlobersController");
 		boolean customViewCreated = false;

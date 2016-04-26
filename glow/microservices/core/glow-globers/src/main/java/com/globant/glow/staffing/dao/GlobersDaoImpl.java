@@ -114,27 +114,6 @@ public class GlobersDaoImpl implements GlobersDao{
 		return staffingViewList;
 	}
 
-	/**
-	 * Get the globers list for MyTpView
-	 * @param viewId- View Id
-	 * @return globerList
-	 */
-	@Override
-	public List<Object[]> getGlobersListForMyTpView(long viewId) throws Exception {
-		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
-		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
-				+ "cd.position, cd.seniority, st.name "
-				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
-				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
-				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
-				+ "si.id = cd.site.id and "
-				+ "st.id = g.studio.id ";
-		Query query = getSession().createQuery(hql);
-		query.setMaxResults(10);
-		List<Object[]> globerList = query.list();
-		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
-		return globerList;
-	}
 
 	/**
 	 * Get the globers list for GlobalTpView who are in TP or release in 21 days
@@ -142,7 +121,7 @@ public class GlobersDaoImpl implements GlobersDao{
 	 * @return globerList
 	 */
 	@Override
-	public List<Object[]> getGlobersListForGlobalTpView(long viewId) throws Exception {
+	public List<Object[]> getGlobersListForGlobalTpView(long viewId,int offset,int limit) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
 				+ "cd.position, cd.seniority, st.name,a.internalAssignmentType,a.startingDate,a.percentage "
@@ -157,7 +136,8 @@ public class GlobersDaoImpl implements GlobersDao{
 				+ "and st.id = g.studio.id order by g.username";
 
 		Query query = getSession().createQuery(hql);
-		query.setMaxResults(10);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 
 		Date todayDate = new Date();
 		Date added21DaysByTodayDate = new Date();
@@ -175,56 +155,12 @@ public class GlobersDaoImpl implements GlobersDao{
 	}
 
 	/**
-	 * Get the globers list for FollowingView who are followed
-	 * @param viewId- View Id
-	 * @return globerList
-	 */
-	@Override
-	public List<Object[]> getGlobersListForFollowingView(long viewId) throws Exception {
-		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
-		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
-				+ "cd.position, cd.seniority, st.name "
-				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
-				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
-				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
-				+ "si.id = cd.site.id and "
-				+ "st.id = g.studio.id ";
-		Query query = getSession().createQuery(hql);
-		query.setMaxResults(10);
-		List<Object[]> globerList = query.list();
-		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
-		return globerList;
-	}
-
-	/**
-	 * Get the globers list for UnassignedView who are new joines
-	 * @param viewId- View Id
-	 * @return globerList
-	 */
-	@Override
-	public List<Object[]> getGlobersListForUnassignedView(long viewId) throws Exception {
-		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
-		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
-				+ "cd.position, cd.seniority, st.name "
-				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
-				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
-				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
-				+ "si.id = cd.site.id and "
-				+ "st.id = g.studio.id ";
-		Query query = getSession().createQuery(hql);
-		query.setMaxResults(10);
-		List<Object[]> globerList = query.list();
-		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
-		return globerList;
-	}
-
-	/**
 	 * Get the globers list for GlobalTpView who are all billable globers
 	 * @param viewId- View Id
 	 * @return globerList
 	 */
 	@Override
-	public List<Object[]> getGlobersListForAllGlobersView(long viewId) throws Exception {
+	public List<Object[]> getGlobersListForAllGlobersView(long viewId,int offset,int limit) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
 				+ "cd.position, cd.seniority, st.name "
@@ -236,7 +172,8 @@ public class GlobersDaoImpl implements GlobersDao{
 				+ "and g.billable=:billableTrue";
 
 		Query query = getSession().createQuery(hql);
-		query.setMaxResults(10);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 
 		query.setBoolean("billableTrue", true);
 
@@ -245,18 +182,107 @@ public class GlobersDaoImpl implements GlobersDao{
 		return globerList;
 	}
 
+
+	/**
+	 * Get the globers list for MyTpView
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
+	@Override
+	public List<Object[]> getGlobersListForMyTpView(long viewId,int offset,int limit) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id ";
+		Query query = getSession().createQuery(hql);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
+	}
+
+	/**
+	 * Get the globers list for FollowingView who are followed
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
+	@Override
+	public List<Object[]> getGlobersListForFollowingView(long viewId,int offset,int limit) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id ";
+		Query query = getSession().createQuery(hql);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
+	}
+
+	/**
+	 * Get the globers list for UnassignedView who are new joines
+	 * @param viewId- View Id
+	 * @return globerList
+	 */
+	@Override
+	public List<Object[]> getGlobersListForUnassignedView(long viewId,int offset,int limit) throws Exception {
+		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
+				+ "cd.position, cd.seniority, st.name "
+				+ "from Glober g, ContractInformation ci, ContractData cd, Site si, Studio st "
+				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL and "
+				+ "cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL and "
+				+ "si.id = cd.site.id and "
+				+ "st.id = g.studio.id ";
+		Query query = getSession().createQuery(hql);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+
+		List<Object[]> globerList = query.list();
+		LOGGER.info("Exit from getGlobersListForGlobalTpView method of GlobersDaoImpl");
+		return globerList;
+	}
+
+
+	/**
+	 * Add new staffing view for the user
+	 * @param customView
+	 * @return customView
+	 */
 	@Override
 	public StaffingView addNewCustomStaffingView(StaffingView customView) throws Exception {
 		getSession().save(customView);
 		return customView;
 	}
 
+	/**
+	 * Add new StaffingUserDefaultView
+	 * @param staffingUserDefaultView
+	 * @return staffingUserDefaultView
+	 */
 	@Override
 	public StaffingUserDefaultView addNewStaffingUserDefaultView(StaffingUserDefaultView staffingUserDefaultView) throws Exception {
 		getSession().save(staffingUserDefaultView);
 		return staffingUserDefaultView;
 	}
 
+	/**
+	 * Update staffingUserDefaultView
+	 * @param staffingUserDefaultView
+	 * @return staffingUserDefaultView
+	 */
 	@Override
 	public StaffingUserDefaultView updateStaffingUserDefaultView(StaffingUserDefaultView staffingUserDefaultView) throws Exception {
 		getSession().update(staffingUserDefaultView);

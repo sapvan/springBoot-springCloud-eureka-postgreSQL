@@ -181,13 +181,13 @@ public class GlobersServiceImpl implements GlobersService {
 	 * @return globersList json
 	 */
 	@Override
-	public String getGlobersListForView(long viewId) throws Exception {
+	public String getGlobersListForView(long viewId,int offset,int limit,String sortingCriteria,String filterCriteria) throws Exception {
 		LOGGER.info("Inside getGlobersListForView method of GlobersServiceImpl");
 		JSONArray globerArr = new JSONArray();
 		if(viewId!=0) {
 			List<Object[]> globerList = null;
 			if(viewId==1) {			//My TP
-				globerList = globersDao.getGlobersListForMyTpView(viewId);
+				globerList = globersDao.getGlobersListForMyTpView(viewId,offset,limit);
 
 				if(globerList!=null) {
 					for(Object[] glober: globerList) {
@@ -223,7 +223,7 @@ public class GlobersServiceImpl implements GlobersService {
 				}
 			}
 			else if(viewId==2) {	//Global TP
-				globerList = globersDao.getGlobersListForGlobalTpView(viewId);
+				globerList = globersDao.getGlobersListForGlobalTpView(viewId,offset,limit);
 
 				if(globerList!=null) {
 					for(Object[] glober: globerList) {
@@ -265,7 +265,7 @@ public class GlobersServiceImpl implements GlobersService {
 				}
 			}
 			else if(viewId==3) {	//Following TP
-				globerList = globersDao.getGlobersListForFollowingView(viewId);
+				globerList = globersDao.getGlobersListForFollowingView(viewId,offset,limit);
 
 				if(globerList!=null) {
 					for(Object[] glober: globerList) {
@@ -301,7 +301,7 @@ public class GlobersServiceImpl implements GlobersService {
 				}
 			}
 			else if(viewId==4) {	//Un-assigned BU/Studio
-				globerList = globersDao.getGlobersListForUnassignedView(viewId);
+				globerList = globersDao.getGlobersListForUnassignedView(viewId,offset,limit);
 
 				if(globerList!=null) {
 					for(Object[] glober: globerList) {
@@ -337,7 +337,7 @@ public class GlobersServiceImpl implements GlobersService {
 				}
 			}
 			else if(viewId==5) {	//All Globers
-				globerList = globersDao.getGlobersListForAllGlobersView(viewId);
+				globerList = globersDao.getGlobersListForAllGlobersView(viewId,offset,limit);
 
 				if(globerList!=null) {
 					for(Object[] glober: globerList) {
@@ -383,6 +383,11 @@ public class GlobersServiceImpl implements GlobersService {
 		return globerArr.toString();
 	}
 
+	/**
+	 * Add new custom view for the user
+	 * @param request-
+	 * @return flag- whether created successfully or not
+	 */
 	@Override
 	public Boolean addNewCustomView(HttpServletRequest request) throws Exception {
 
@@ -404,10 +409,25 @@ public class GlobersServiceImpl implements GlobersService {
 			user = new Glober();
 			user.setId(userId);
 		}
+		else {
+			return false;
+		}
 
 		StaffingView customView = new StaffingView();
-		customView.setName(name);
-		customView.setColumns(columns);
+		if(name!=null && name.trim().isEmpty()==false) {
+			customView.setName(name);
+		}
+		else {
+			return false;
+		}
+
+		if(columns!=null && columns.trim().isEmpty()==false) {
+			customView.setColumns(columns);
+		}
+		else {
+			return false;
+		}
+
 		customView.setFilterCriteria(filterCriteria);
 
 		customView.setUser(user);
@@ -431,7 +451,7 @@ public class GlobersServiceImpl implements GlobersService {
 					staffingUserDefaultView.setStaffingView(customView);
 					staffingUserDefaultView.setUser(user);
 
-					globersDao.addNewStaffingUserDefaultView(staffingUserDefaultView);
+					staffingUserDefaultView = globersDao.addNewStaffingUserDefaultView(staffingUserDefaultView);
 				}
 				else {
 					staffingUserDefaultView.setActive(true);
@@ -439,7 +459,7 @@ public class GlobersServiceImpl implements GlobersService {
 					staffingUserDefaultView.setStaffingView(customView);
 					staffingUserDefaultView.setUser(user);
 
-					globersDao.updateStaffingUserDefaultView(staffingUserDefaultView);
+					staffingUserDefaultView = globersDao.updateStaffingUserDefaultView(staffingUserDefaultView);
 				}
 			}
 			return true;

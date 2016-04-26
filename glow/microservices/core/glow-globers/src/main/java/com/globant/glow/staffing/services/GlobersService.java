@@ -14,7 +14,7 @@ public interface GlobersService {
 
 	public String getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception;
 
-	public String getGlobersListForView(long viewId) throws Exception;
+	public String getGlobersListForView(long viewId,int offset,int limit,String sortingCriteria,String filterCriteria) throws Exception;
 
 	public Boolean addNewCustomView(HttpServletRequest request) throws Exception;
 

@@ -17,15 +17,15 @@ public interface GlobersDao {
 
 	public List<StaffingView> getStaffingViewList(long userId, String viewFor, boolean isActive) throws Exception;
 
-	public List<Object[]> getGlobersListForMyTpView(long viewId) throws Exception;
+	public List<Object[]> getGlobersListForMyTpView(long viewId,int offset,int limit) throws Exception;
 
-	public List<Object[]> getGlobersListForGlobalTpView(long viewId) throws Exception;
+	public List<Object[]> getGlobersListForGlobalTpView(long viewId,int offset,int limit) throws Exception;
 
-	public List<Object[]> getGlobersListForFollowingView(long viewId) throws Exception;
+	public List<Object[]> getGlobersListForFollowingView(long viewId,int offset,int limit) throws Exception;
 
-	public List<Object[]> getGlobersListForUnassignedView(long viewId) throws Exception;
+	public List<Object[]> getGlobersListForUnassignedView(long viewId,int offset,int limit) throws Exception;
 
-	public List<Object[]> getGlobersListForAllGlobersView(long viewId) throws Exception;
+	public List<Object[]> getGlobersListForAllGlobersView(long viewId,int offset,int limit) throws Exception;
 
 	public StaffingView addNewCustomStaffingView(StaffingView customView) throws Exception;
 
