@@ -96,3 +96,4 @@ derbyDB
 derby.log
 *.log
 **/resources/rebel.xml
+*.pid
