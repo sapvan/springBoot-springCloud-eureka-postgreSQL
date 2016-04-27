@@ -131,7 +131,7 @@ public class GlobersDaoImpl implements GlobersDao{
 				+ "and si.id = cd.site.id "
 				+ "and a.glober.id=g.id and "
 				+ "((a.endDate is null and a.startingDate<=:todayDate) "
-				+ "or (a.endDate is null and a.startingDate<=:added21DaysByTodayDate)) "
+				+ "or (a.endDate is null and a.startingDate<=:added21DaysByTodayDate and a.startingDate>:todayDate)) "
 				+ "and a.internalAssignmentType=:benchProject "
 				+ "and st.id = g.studio.id order by g.username";
 

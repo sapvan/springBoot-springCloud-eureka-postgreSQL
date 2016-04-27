@@ -103,7 +103,7 @@ public class GlobersController {
 				offset = (int) 0;
 			}
 			if(limit==null){
-				limit = (int) 0;
+				limit = (int) 20;
 			}
 			globersList = globersService.getGlobersListForView(viewId,offset,limit,sortingCriteria,filterCriteria);
 		}
