@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.globant.glow.core.domain.Glober;
 import com.globant.glow.core.domain.staffing.StaffingColumn;
 import com.globant.glow.core.domain.staffing.StaffingUserDefaultView;
 import com.globant.glow.core.domain.staffing.StaffingView;
@@ -124,16 +127,62 @@ public class GlobersDaoImpl implements GlobersDao{
 	public List<Object[]> getGlobersListForGlobalTpView(long viewId,int offset,int limit) throws Exception {
 		LOGGER.info("Inside getGlobersListForGlobalTpView method of GlobersDaoImpl");
 		String hql = "SELECT g.id, g.username, g.workEmail, g.firstName, g.lastName,si.name, "
-				+ "cd.position, cd.seniority, st.name,a.internalAssignmentType,a.startingDate,a.percentage "
+				+ "cd.position, cd.seniority, st.name,a.internalAssignmentType,a.startingDate,a.endDate,a.percentage,a.project "
 				+ "from Glober g, ContractInformation ci, ContractData cd,Site si, Studio st,Assignment a "
 				+ "where ci.id = g.contractInformation.id and ci.lastDate IS NULL "
 				+ "and cd.contracInformation.id = g.contractInformation.id and cd.endDate IS NULL "
 				+ "and si.id = cd.site.id "
-				+ "and a.glober.id=g.id and "
-				+ "((a.endDate is null and a.startingDate<=:todayDate) "
-				+ "or (a.endDate is null and a.startingDate<=:added21DaysByTodayDate and a.startingDate>:todayDate)) "
-				+ "and a.internalAssignmentType=:benchProject "
-				+ "and st.id = g.studio.id order by g.username";
+				+ "and a.glober.id=g.id "
+				+ "and st.id = g.studio.id "
+				+ "and ((a.endDate is null and a.startingDate<=:todayDate and a.internalAssignmentType=:benchProject) "
+				+ "or (a.endDate>:todayDate and a.endDate<=:added21DaysByTodayDate)) "
+				+ " order by g.username";
+
+		/*String hql = "select g.id,g.username,g.workEmail,g.firstName,g.lastName,si.name,"
+					+"cd.position,cd.seniority,st.name,a.internalAssignmentType,a.startingDate,"
+					+"a.percentage,ml.mentor.mentor.username,ml.leader.leader.username "
+					+"FROM Glober g "
+					+"Join g.contractInformation ci "
+					+"Join ci.contractsData cd "
+					+"Join cd.site si "
+					+"Join g.assignments a "
+					+"Join g.studio st "
+					+"Left Join g.mentorLeaders ml "
+					+"WHERE ci.lastDate IS NULL "
+					+"AND cd.endDate IS NULL "
+					+"and ((a.endDate is null and a.startingDate<=:todayDate) "
+					+"or (a.endDate is null and a.startingDate<=:added21DaysByTodayDate and a.startingDate>:todayDate)) "
+					+"and a.internalAssignmentType=:benchProject order by g.username";*/
+
+		/*Criteria criteria = getSession().createCriteria(Glober.class, "glober");
+		criteria.createAlias("glober.contractInformation", "ci");
+		criteria.createAlias("ContractData.contracInformation", "cd");
+		criteria.createAlias("Site", "si");
+		criteria.createAlias("Assignment.glober", "a");
+		criteria.createAlias("Studio", "st");
+		criteria.createAlias("MentorLeader.glober", "ml");
+
+		criteria.setFetchMode("ci", FetchMode.JOIN);
+		criteria.setFetchMode("cd", FetchMode.JOIN);
+		criteria.setFetchMode("si", FetchMode.JOIN);
+		criteria.setFetchMode("a", FetchMode.JOIN);
+		criteria.setFetchMode("st", FetchMode.JOIN);
+		criteria.setFetchMode("ml", FetchMode.JOIN);*/
+
+		/*String sql = "SELECT g.id,g.username,g.work_email,g.first_name,g.last_name,si.name,"
+				+" cd.position,cd.seniority,a.internal_assignment_type,a.starting_date,a.percentage,ml.mentor_fk"
+				+" FROM globers g"
+				+" JOIN contracts_information ci ON ci.id = g.contract_information_fk"
+				+" JOIN contracts_data cd ON cd.contract_information_fk = g.contract_information_fk"
+				+" JOIN sites si ON si.id = cd.site_fk"
+				+" JOIN assignments a on  a.resume_fk = g.id"
+				+" Join studios stud on stud.id = g.studio_fk"
+				+" Left Join mentor_leader ml on ml.glober_fk = g.id"
+				+" WHERE ci.last_date IS NULL"
+				+" AND cd.end_date IS NULL"
+				+" and ((a.end_date is null and a.starting_date<=:todayDate)"
+				   +" or (a.end_date is null and a.starting_date<=:added21DaysByTodayDate and a.starting_date>:todayDate))"
+				   +" and a.internal_assignment_type=:benchProject order by g.username";*/
 
 		Query query = getSession().createQuery(hql);
 		query.setFirstResult(offset);

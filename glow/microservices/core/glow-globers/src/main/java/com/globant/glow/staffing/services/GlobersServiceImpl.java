@@ -13,8 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.globant.glow.core.domain.Client;
 import com.globant.glow.core.domain.Glober;
 import com.globant.glow.core.domain.InternalAssignmentType;
+import com.globant.glow.core.domain.Project;
+import com.globant.glow.core.domain.Studio;
 import com.globant.glow.core.domain.staffing.StaffingColumn;
 import com.globant.glow.core.domain.staffing.StaffingUserDefaultView;
 import com.globant.glow.core.domain.staffing.StaffingView;
@@ -227,6 +230,7 @@ public class GlobersServiceImpl implements GlobersService {
 
 				if(globerList!=null) {
 					for(Object[] glober: globerList) {
+
 						long id = (Long) glober[0];
 						String userName = (String) glober[1];
 						String workEmail = (String) glober[2];
@@ -236,14 +240,23 @@ public class GlobersServiceImpl implements GlobersService {
 						String position = (String) glober[6];
 						String seniority = (String) glober[7];
 						String studio = (String) glober[8];
-						InternalAssignmentType project = (InternalAssignmentType) glober[9];
-						Date benchStartDate = (Date) glober[10];
-						int availablity = (int) glober[11];
+						InternalAssignmentType assignmentType = (InternalAssignmentType) glober[9];
+						Date assignmentStartDate = (Date) glober[10];
+						Date assignmentEndDate = (Date) glober[11];
+						int availablity = (int) glober[12];
+						Project project = (Project) glober[13];
+						String mentor = "";//(String) glober[14];
+						String leader = "";//(String) glober[15];
 
-						String benchStartDateStr = "";
+						String assignmentStartDateStr = "";
 						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-						if(benchStartDate!=null) {
-							benchStartDateStr = formatter.format(benchStartDate);
+						if(assignmentStartDate!=null) {
+							assignmentStartDateStr = formatter.format(assignmentStartDate);
+						}
+
+						String assignmentEndDateStr = "";
+						if(assignmentEndDate!=null) {
+							assignmentEndDateStr = formatter.format(assignmentEndDate);
 						}
 
 						JSONObject globerObj = new JSONObject();
@@ -252,14 +265,43 @@ public class GlobersServiceImpl implements GlobersService {
 						globerObj.put("email", workEmail);
 						globerObj.put("position", position);
 						globerObj.put("seniority", seniority);
-						globerObj.put("skills", "");
-						globerObj.put("availablity", availablity);
-						globerObj.put("benchStartDate", benchStartDateStr);
 						globerObj.put("studio", studio);
 						globerObj.put("location", location);
-						globerObj.put("leader", "");
+						globerObj.put("mentor", mentor);
+						globerObj.put("leader", leader);
 						globerObj.put("handler", "");
-						globerObj.put("status", "");
+						globerObj.put("skills", "");
+						if(assignmentType!=null) {
+							if(assignmentType.name().equals("BENCH")) {
+								globerObj.put("benchStartDate", assignmentStartDateStr);
+								globerObj.put("availablity", availablity);
+								globerObj.put("clientBU", "");
+								globerObj.put("status", "Talent Pool");
+								globerObj.put("source", "");
+							}
+							else if(assignmentType.name().equals("ASSIGNED_TO_PROJECT")){
+								globerObj.put("benchStartDate", assignmentEndDateStr);
+								globerObj.put("availablity", (100 - availablity));
+
+								String clientBUName = "";
+								String clientName = "";
+								String projectName = "";
+								if(project!=null) {
+									projectName = project.getName();
+									Client client = project.getClient();
+									/*if(client!=null) {
+										clientName = client.getName();
+										Studio clientBU = client.getBusinessUnit();
+										if(clientBU!=null) {
+											clientBUName = clientBU.getName();
+										}
+									}*/
+								}
+								globerObj.put("clientBU", clientBUName);
+								globerObj.put("status", assignmentType);
+								globerObj.put("source", clientName + "/" +projectName);
+							}
+						}
 						globerArr.put(globerObj);
 					}
 				}
